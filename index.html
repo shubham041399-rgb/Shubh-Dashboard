@@ -688,6 +688,10 @@ async function analysePost(){
     const isVideo=state.paFile.type.startsWith('video/');
     let imageData=null,mimeType=null;
     if(!isVideo){imageData=await fileToBase64(state.paFile);mimeType=getMime(state.paFile);}
+    else{
+      // For video: extract description prompt since Gemini free tier doesn't support video
+      showToast('Video detected — analysing based on your description. Add details in the context field for better results.');
+    }
 
     const prompt=`You are a professional Instagram content analyst for @shubh_log — Indian gym fitness creator, 75-day reel challenge, Day ${state.currentDay}/75. Stats: ${state.followers} followers. Style: vibe-only (Aesthetic/Funny/Motivational/Attitude), NO tips, body-safe filming (fitted tee, side/back/face only).\n${ctx?`Creator notes: ${ctx}\n`:''}\nAnalyse this ${isVideo?'gym reel (video)':'gym content image'} and return EXACTLY this format:\n\nVERDICT: [POST IT or HOLD IT]\nVERDICT_REASON: [1-2 sentences why]\nSCORE: [number 0-100]\nSCORE_BREAKDOWN:\nHook strength: [X]/20 — [brief reason]\nVibe match: [X]/20 — [brief reason]\nVisual quality: [X]/20 — [brief reason]\nBody-safe compliance: [X]/20 — [brief reason]\nPosting readiness: [X]/20 — [brief reason]\nSHORT_CAPTION: [1-2 punchy lines, India gym vibe]\nLONG_CAPTION: [3-5 lines + CTA like "follow the 75 👇"]\nHASHTAGS: [3-5 India gym hashtags]\nBEST_TIME: [specific time for India audience]\nFIRST_COMMENT: [SEO-optimised first comment to pin]\nIMPROVEMENTS: [2-3 specific improvements]`;
 
@@ -700,13 +704,21 @@ async function analysePost(){
 }
 
 function parsePostAnalysis(text){
-  const get=(key)=>{const m=text.match(new RegExp(key+':\\s*([\\s\\S]+?)(?=\\n[A-Z_]+:|$)'));return m?m[1].trim():'—';};
-  const verdict=get('VERDICT');const isPost=verdict.toUpperCase().includes('POST IT')&&!verdict.toUpperCase().includes('HOLD');
-  const vbox=document.getElementById('pa-verdict-box');vbox.className='verdict-box '+(isPost?'verdict-post':'verdict-wait');
+  // Universal parser - handles both plain KEY: and **KEY**: formats
+  const get=(key)=>{
+    const clean=text.replace(/\*\*/g,'');
+    const m=clean.match(new RegExp(key+'\\s*:?\\s*([\\s\\S]+?)(?=\\n[A-Z_]{2,}\\s*:|$)','i'));
+    return m&&m[1].trim()?m[1].trim():'—';
+  };
+  const cleanText=text.replace(/\*\*/g,'');
+  const verdict=(cleanText.match(/VERDICT\s*:?\s*(.+)/i)||[])[1]||'';
+  const isPost=verdict.toUpperCase().includes('POST')&&!verdict.toUpperCase().includes('HOLD');
+  const vbox=document.getElementById('pa-verdict-box');
+  vbox.className='verdict-box '+(isPost?'verdict-post':'verdict-wait');
   document.getElementById('pa-verdict-icon').textContent=isPost?'✅':'⚠️';
   document.getElementById('pa-verdict-title').textContent=isPost?'Post This':'Hold It';
   document.getElementById('pa-verdict-reason').textContent=get('VERDICT_REASON');
-  const score=parseInt(text.match(/SCORE:\s*(\d+)/)?.[1]||'0');
+  const score=parseInt(cleanText.match(/SCORE\s*:\s*(\d+)/i)?.[1]||'0');
   document.getElementById('pa-score-num').textContent=score;
   document.getElementById('pa-score-circle').style.strokeDashoffset=251-(251*(score/100));
   document.getElementById('pa-score-circle').style.stroke=score>=75?'var(--green)':score>=50?'var(--accent)':'var(--orange)';
@@ -736,28 +748,43 @@ async function analyseEdit(){
 }
 
 function parseEditAnalysis(text){
-  const get=(key)=>{const m=text.match(new RegExp(key+':\\s*([\\s\\S]+?)(?=\\n[A-Z]+:|$)'));return m?m[1].trim():'—';};
-  const winner=get('WINNER');const wscore=get('WINNER_SCORE');const wreason=get('WINNER_REASON');
+  const cleanText=text.replace(/\*\*/g,'');
+  const get=(key)=>{
+    const m=cleanText.match(new RegExp(key+'\\s*:?\\s*([\\s\\S]+?)(?=\\n[A-Z_]{2,}\\s*:|$)','i'));
+    return m&&m[1].trim()?m[1].trim():'—';
+  };
+  const winner=(cleanText.match(/^WINNER\s*:\s*(.+)/im)||[])[1]?.trim()||'CapCut';
+  const wscore=(cleanText.match(/WINNER_SCORE\s*:\s*(.+)/i)||[])[1]?.trim()||'—';
+  const wreason=get('WINNER_REASON');
   const icons={CapCut:'🎬',VN:'🎞️',Edits:'📱'};
   document.getElementById('ea-winner-icon').textContent=icons[winner]||'🏅';
   document.getElementById('ea-winner-name').textContent=winner;
   document.getElementById('ea-winner-reason').textContent=wreason;
   document.getElementById('ea-winner-score').textContent=wscore;
-  const tableMatch=text.match(/COMPARISON:([\s\S]+?)(?=STEPS:|$)/i);
+  // Parse comparison table
+  const tableMatch=cleanText.match(/COMPARISON[:\s]*([\s\S]+?)(?=STEPS:|STEP-BY-STEP|$)/i);
   if(tableMatch){
-    const rows=tableMatch[1].trim().split('\n').filter(r=>r.includes('|')&&!r.toLowerCase().includes('setting'));
+    const rows=tableMatch[1].trim().split('\n').filter(r=>r.includes('|')&&!/setting.*capcut.*vn/i.test(r)&&!/-{3,}/.test(r));
     const tbody=document.getElementById('ea-compare-body');tbody.innerHTML='';
-    const cw=winner==='CapCut',vw=winner==='VN',ew=winner==='Edits';
+    const cw=winner.includes('CapCut'),vw=winner.includes('VN'),ew=winner.includes('Edits');
     if(cw)document.getElementById('th-capcut').innerHTML='CapCut <span class="winner-badge">BEST</span>';
+    else document.getElementById('th-capcut').textContent='CapCut';
     if(vw)document.getElementById('th-vn').innerHTML='VN <span class="winner-badge">BEST</span>';
+    else document.getElementById('th-vn').textContent='VN';
     if(ew)document.getElementById('th-edits').innerHTML='Edits <span class="winner-badge">BEST</span>';
+    else document.getElementById('th-edits').textContent='Edits';
     rows.forEach(row=>{
       const cols=row.split('|').map(c=>c.trim()).filter(Boolean);
-      if(cols.length>=4){const tr=document.createElement('tr');tr.innerHTML=`<td style="font-weight:500;color:var(--text2)">${cols[0]}</td><td class="${cw?'winner-col':''}">${cols[1]}</td><td class="${vw?'winner-col':''}">${cols[2]}</td><td class="${ew?'winner-col':''}">${cols[3]}</td>`;tbody.appendChild(tr);}
+      if(cols.length>=4){
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td style="font-weight:500;color:var(--text2)">${cols[0]}</td><td class="${cw?'winner-col':''}">${cols[1]}</td><td class="${vw?'winner-col':''}">${cols[2]}</td><td class="${ew?'winner-col':''}">${cols[3]}</td>`;
+        tbody.appendChild(tr);
+      }
     });
   }
   document.getElementById('ea-guide-label').textContent=`📋 Step-by-Step for ${winner}`;
-  document.getElementById('ea-step-guide').textContent=get('STEPS');
+  const steps=get('STEPS')||get('STEP-BY-STEP GUIDE')||get('STEP BY STEP');
+  document.getElementById('ea-step-guide').textContent=steps;
   document.getElementById('ea-avoid').textContent=get('AVOID');
 }
 
