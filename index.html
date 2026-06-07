@@ -161,6 +161,7 @@ select option{background:var(--bg2)}
   <div class="nav-item" onclick="showPage('competitors')" id="nav-competitors"><span class="nav-icon">🔍</span><span class="nav-label">Competitors</span></div>
   <div class="nav-item" onclick="showPage('monetization')" id="nav-monetization"><span class="nav-icon">💰</span><span class="nav-label">Monetization</span></div>
   <div class="nav-item" onclick="showPage('inspector')" id="nav-inspector"><span class="nav-icon">🛡️</span><span class="nav-label">Inspector</span></div>
+  <div class="nav-item" onclick="showPage('manual')" id="nav-manual"><span class="nav-icon">📖</span><span class="nav-label">User Manual</span></div>
 </nav>
 
 <div class="main">
@@ -463,6 +464,153 @@ select option{background:var(--bg2)}
     <div id="inspect-checks"></div>
     <div class="card"><div class="card-title">🧠 AI Deep Inspection</div><button class="btn btn-ghost btn-sm" onclick="deepInspect()" style="margin-bottom:12px">Run AI Analysis</button><div class="ai-output" id="deep-inspect-output" style="display:none"></div></div>
   </div>
+  <!-- USER MANUAL -->
+  <div class="page" id="page-manual">
+    <div class="sec-header"><div><div class="sec-title">User Manual 📖</div><div class="sec-sub">Everything you need to know about your dashboard</div></div></div>
+
+    <!-- DAILY CHECKLIST -->
+    <div class="card" style="border:1px solid rgba(232,255,71,0.3);background:rgba(232,255,71,0.04)">
+      <div class="card-title" style="color:var(--accent)">⚡ Daily Checklist — Fill These Every Day</div>
+      <div style="font-size:13px;line-height:2;color:var(--text2)">
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:16px;flex-shrink:0">1️⃣</span>
+          <div><strong style="color:var(--text)">75-Day Tracker → Daily Log</strong><br>After posting — check the ✅ Posted checkbox, enter Views, Likes, and your current Follower count for that day. Do this every evening after 7:30 PM post.</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:16px;flex-shrink:0">2️⃣</span>
+          <div><strong style="color:var(--text)">Analytics → Manual Stats Update</strong><br>Open Instagram app → check real follower count → come here → type the number → click Update Now. Do this once a day for accurate data since Windsor syncs slowly.</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:16px;flex-shrink:0">3️⃣</span>
+          <div><strong style="color:var(--text)">Post Analyser → Upload & Analyse</strong><br>Before posting your reel — upload the final edited video here first. Get score, verdict, and caption. Only post if score is 70+ or verdict says POST IT.</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:16px;flex-shrink:0">4️⃣</span>
+          <div><strong style="color:var(--text)">Calendar → Check Today's Plan</strong><br>Every morning — open Calendar, click today's date, see your workout concept, hook text, and audio type. Plan your filming around this.</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0">
+          <span style="font-size:16px;flex-shrink:0">5️⃣</span>
+          <div><strong style="color:var(--text)">Command Center → Daily Instruction</strong><br>Type one instruction like "What should I focus on today?" or "Plan my content for this week" — all departments activate and give you a full action plan.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WINDSOR SYNC TIMER -->
+    <div class="card" style="border:1px solid rgba(59,130,246,0.3);background:rgba(59,130,246,0.04)">
+      <div class="card-title" style="color:var(--blue)">☁️ Windsor.ai Data Sync Schedule</div>
+      <div style="font-size:13px;line-height:1.9;color:var(--text2);margin-bottom:12px">
+        Windsor.ai is connected to your @shubh_log Instagram account and pulls data automatically. Here's what it syncs and when:
+      </div>
+      <div style="display:grid;gap:8px">
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:12px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-weight:500;font-size:13px">Follower count, Following, Posts</div><div style="font-size:11px;color:var(--text3)">Profile metrics</div></div>
+          <div class="badge badge-orange">Every 4-24 hrs</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:12px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-weight:500;font-size:13px">Reach, Impressions, Profile Views</div><div style="font-size:11px;color:var(--text3)">Engagement metrics</div></div>
+          <div class="badge badge-orange">Every 24 hrs</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:12px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-weight:500;font-size:13px">Post likes, comments, saves, shares</div><div style="font-size:11px;color:var(--text3)">Post-level metrics</div></div>
+          <div class="badge badge-orange">Every 24 hrs</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:12px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-weight:500;font-size:13px">Bio, Display name, Website</div><div style="font-size:11px;color:var(--text3)">Profile info</div></div>
+          <div class="badge badge-yellow">When changed</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px 12px;background:rgba(232,255,71,0.06);border-radius:var(--radius-sm);font-size:12px;color:var(--text2)">
+        💡 <strong style="color:var(--accent)">Pro tip:</strong> For real-time accuracy, always use the Manual Stats Update in Analytics tab. Windsor data is best for tracking weekly trends, not minute-by-minute changes.
+      </div>
+      <div style="margin-top:8px;font-size:12px;color:var(--text3)">Last Windsor sync: <span id="manual-last-sync-display">Check Analytics tab</span></div>
+    </div>
+
+    <!-- TAB GUIDE -->
+    <div class="card">
+      <div class="card-title">📱 What Each Tab Does</div>
+      <div style="display:grid;gap:10px">
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--accent)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">⚡</span><strong style="font-size:14px">Command Center</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Your main hub. Type one instruction and all departments activate. Shows today's workout plan, live follower count, and quick stats. <strong style="color:var(--text)">Use daily for your action plan.</strong></div>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--blue)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">📊</span><strong style="font-size:14px">Analytics</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Shows follower stats from Windsor.ai. Has Manual Stats Update for real-time accuracy. Best time to post chart. AI account analysis on demand. <strong style="color:var(--text)">Update manually every day.</strong></div>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--green)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🎯</span><strong style="font-size:14px">75-Day Tracker</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Tracks your 75-day challenge progress. Log views, likes, followers each day. Shows weekly stats. Progress bar updates automatically. <strong style="color:var(--text)">Fill in after every post.</strong></div>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--purple)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">📅</span><strong style="font-size:14px">Calendar</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Full 75-day content calendar. Click any date to see workout, concept, hook text, audio type. Add personal reminders. Yellow dots = post days. <strong style="color:var(--text)">Check every morning.</strong></div>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--pink)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">✍️</span><strong style="font-size:14px">Caption AI</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Generate unique captions + hashtags by selecting vibe and workout. Hook bank for one-click copy. Content ideas generator. <strong style="color:var(--text)">Use when you need captions without uploading video.</strong></div>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--orange)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🎬</span><strong style="font-size:14px">Post Analyser</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Upload your FINAL edited reel/photo. Gets scored 0-100, POST IT or HOLD IT verdict, caption generated from your actual content, best time to post, SEO first comment. <strong style="color:var(--text)">Use before every post. Max 20MB.</strong></div>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--accent)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🎨</span><strong style="font-size:14px">Edit Advisor</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Upload 2-3 RAW frame screenshots from your video. Gets color grading and filter suggestions for CapCut, VN, and Edits app with comparison table. <strong style="color:var(--text)">Use before editing your raw footage.</strong></div>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--purple)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🔍</span><strong style="font-size:14px">Competitors</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Add competitor Instagram handles. Get AI analysis of their content style, hooks, what's working. Study format only — never copy content. <strong style="color:var(--text)">Run weekly analysis every Sunday.</strong></div>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--green)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">💰</span><strong style="font-size:14px">Monetization</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Tracks your path to earning. Shows locked and unlocked milestones — brand gifting at 500, paid deals at 1K, subscriptions at 10K. Updates as followers grow. <strong style="color:var(--text)">Check when follower milestones are hit.</strong></div>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--orange)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🛡️</span><strong style="font-size:14px">Account Inspector</strong></div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Checks your profile health — photo, bio, highlights, link, creator account status. Shows score and what to fix. AI deep inspection available. <strong style="color:var(--text)">Check once a week or after profile changes.</strong></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WORKFLOW -->
+    <div class="card">
+      <div class="card-title">🔄 Ideal Daily Workflow</div>
+      <div style="font-size:13px;color:var(--text2);line-height:2">
+        <div style="padding:6px 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent)">Morning</strong> → Open Calendar → check today's concept → plan filming</div>
+        <div style="padding:6px 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent)">Before editing</strong> → Edit Advisor → upload raw frames → get color grade settings</div>
+        <div style="padding:6px 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent)">After editing</strong> → Post Analyser → upload final reel → check score → get caption</div>
+        <div style="padding:6px 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent)">7:30 PM</strong> → Post on Instagram using generated caption + hashtags</div>
+        <div style="padding:6px 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent)">After posting</strong> → 75-Day Tracker → log Posted ✅, views, likes</div>
+        <div style="padding:6px 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent)">Before sleep</strong> → Analytics → manual update follower count</div>
+        <div style="padding:6px 0"><strong style="color:var(--accent)">Sunday</strong> → Competitors → run weekly analysis → Command Center → weekly plan</div>
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="card">
+      <div class="card-title">💡 Important Rules to Remember</div>
+      <div style="display:grid;gap:8px;font-size:13px">
+        <div style="padding:10px 12px;background:rgba(255,107,157,0.1);border-radius:var(--radius-sm);border-left:3px solid var(--pink)">❌ <strong>Never post without running Post Analyser first.</strong> If score is below 60, fix and re-upload.</div>
+        <div style="padding:10px 12px;background:rgba(232,255,71,0.06);border-radius:var(--radius-sm);border-left:3px solid var(--accent)">✅ <strong>Follower count in topbar</strong> comes from Windsor (delayed). For real count, check Analytics manual update.</div>
+        <div style="padding:10px 12px;background:rgba(168,85,247,0.1);border-radius:var(--radius-sm);border-left:3px solid var(--purple)">📸 <strong>Edit Advisor needs screenshots</strong>, not the actual video. Open video on phone → pause → screenshot → upload.</div>
+        <div style="padding:10px 12px;background:rgba(34,197,94,0.1);border-radius:var(--radius-sm);border-left:3px solid var(--green)">💾 <strong>Tracker data saves automatically</strong> in your browser. Don't clear browser data or you'll lose your logs.</div>
+        <div style="padding:10px 12px;background:rgba(249,115,22,0.1);border-radius:var(--radius-sm);border-left:3px solid var(--orange)">🎬 <strong>Post Analyser max 20MB.</strong> Compress your reel before uploading if it's larger. Use CapCut export settings.</div>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
 <script>
