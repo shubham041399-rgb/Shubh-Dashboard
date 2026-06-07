@@ -696,6 +696,7 @@ async function analysePost(){
     const prompt=`You are a professional Instagram content analyst for @shubh_log — Indian gym fitness creator, 75-day reel challenge, Day ${state.currentDay}/75. Stats: ${state.followers} followers. Style: vibe-only (Aesthetic/Funny/Motivational/Attitude), NO tips, body-safe filming (fitted tee, side/back/face only).\n${ctx?`Creator notes: ${ctx}\n`:''}\nAnalyse this ${isVideo?'gym reel (video)':'gym content image'} and return EXACTLY this format:\n\nVERDICT: [POST IT or HOLD IT]\nVERDICT_REASON: [1-2 sentences why]\nSCORE: [number 0-100]\nSCORE_BREAKDOWN:\nHook strength: [X]/20 — [brief reason]\nVibe match: [X]/20 — [brief reason]\nVisual quality: [X]/20 — [brief reason]\nBody-safe compliance: [X]/20 — [brief reason]\nPosting readiness: [X]/20 — [brief reason]\nSHORT_CAPTION: [1-2 punchy lines, India gym vibe]\nLONG_CAPTION: [3-5 lines + CTA like "follow the 75 👇"]\nHASHTAGS: [3-5 India gym hashtags]\nBEST_TIME: [specific time for India audience]\nFIRST_COMMENT: [SEO-optimised first comment to pin]\nIMPROVEMENTS: [2-3 specific improvements]`;
 
     const text=await callAI(prompt,imageData,mimeType);
+    console.log('=== POST ANALYSER RESPONSE ===', text);
     parsePostAnalysis(text);
     document.getElementById('pa-results').style.display='block';
     document.getElementById('pa-results').scrollIntoView({behavior:'smooth'});
@@ -740,6 +741,10 @@ async function analyseEdit(){
     const prompt=`You are a professional video colorist for @shubh_log — Indian gym fitness creator making Instagram reels. Target style: ${style}. ${ctx?`Shot: ${ctx}.`:''}\n\nAnalyse these frame screenshots and return EXACTLY:\n\nWINNER: [CapCut or VN or Edits]\nWINNER_SCORE: [X/100]\nWINNER_REASON: [2-3 sentences why this app is best for this footage]\n\nCOMPARISON:\nSetting | CapCut | VN | Edits\nBrightness | [value] | [value] | [value]\nContrast | [value] | [value] | [value]\nSaturation | [value] | [value] | [value]\nShadows | [value] | [value] | [value]\nHighlights | [value] | [value] | [value]\nWarmth | [value] | [value] | [value]\nSharpness | [value] | [value] | [value]\nFilter | [name+strength] | [name+strength] | [name+strength]\nScore | [/100] | [/100] | [/100]\n\nSTEPS:\n[Numbered step-by-step edit guide for winning app. Simple language, exact values.]\n\nAVOID:\n[3-4 things NOT to do with this footage]`;
 
     const text=await callAI(prompt,null,null,true,images);
+    console.log('=== GEMINI RAW RESPONSE ===');
+    console.log(text);
+    console.log('=== END RESPONSE ===');
+    document.getElementById('ea-step-guide').textContent = '=== RAW RESPONSE (check console) ===\n' + text.substring(0,500);
     parseEditAnalysis(text);
     document.getElementById('ea-results').style.display='block';
     document.getElementById('ea-results').scrollIntoView({behavior:'smooth'});
