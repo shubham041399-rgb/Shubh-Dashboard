@@ -34,7 +34,7 @@ h1,h2,h3,h4{font-family:'Syne',sans-serif}
 .page.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
-.card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px}
 .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
 .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;position:relative;overflow:hidden}
 .stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:0.4}
@@ -52,7 +52,6 @@ h1,h2,h3,h4{font-family:'Syne',sans-serif}
 .badge-pink{background:rgba(255,107,157,0.15);color:var(--pink)}
 .badge-purple{background:rgba(168,85,247,0.15);color:var(--purple)}
 .badge-orange{background:rgba(249,115,22,0.15);color:var(--orange)}
-.badge-blue{background:rgba(59,130,246,0.15);color:var(--blue)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s;border:none;font-family:'DM Sans',sans-serif}
 .btn-accent{background:var(--accent);color:#000}
 .btn-accent:hover{background:var(--accent2);transform:translateY(-1px)}
@@ -88,10 +87,6 @@ select option{background:var(--bg2)}
 .mono-milestone{display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:10px}
 .mono-milestone.unlocked{border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.05)}
 .mono-milestone.locked{opacity:0.5}
-.mono-icon{font-size:24px;flex-shrink:0}
-.mono-info{flex:1}
-.mono-title{font-weight:600;font-size:14px}
-.mono-desc{font-size:12px;color:var(--text2);margin-top:3px}
 .comp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px}
 .comp-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .comp-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
@@ -104,8 +99,6 @@ select option{background:var(--bg2)}
 .dept-dot{width:8px;height:8px;border-radius:50%;background:var(--text3);flex-shrink:0}
 .dept-dot.active{background:var(--green);animation:pulse 1s infinite}
 .dept-dot.done{background:var(--accent)}
-.dept-name{font-size:13px;font-weight:500}
-.dept-status-text{font-size:11px;color:var(--text3)}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .hook-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:all 0.2s;margin-bottom:6px}
@@ -114,50 +107,30 @@ select option{background:var(--bg2)}
 .sec-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700}
 .sec-sub{font-size:13px;color:var(--text2);margin-top:3px}
 .divider{border:none;border-top:1px solid var(--border);margin:16px 0}
-/* UPLOAD ZONE */
 .upload-zone{border:2px dashed var(--border2);border-radius:var(--radius);padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative}
 .upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:rgba(232,255,71,0.04)}
 .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.upload-icon{font-size:36px;margin-bottom:12px}
-.upload-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px}
-.upload-sub{font-size:13px;color:var(--text2)}
-.upload-preview{margin-top:16px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border2)}
-.upload-preview img,.upload-preview video{width:100%;max-height:240px;object-fit:cover;display:block}
-/* SCORE RING */
+.upload-preview img,.upload-preview video{width:100%;max-height:240px;object-fit:cover;display:block;border-radius:var(--radius-sm);margin-top:12px;border:1px solid var(--border2)}
 .score-ring{position:relative;width:100px;height:100px;flex-shrink:0}
 .score-ring svg{transform:rotate(-90deg)}
 .score-ring-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .score-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800}
 .score-label{font-size:10px;color:var(--text2);margin-top:2px}
-/* COMPARISON TABLE */
 .compare-table{width:100%;border-collapse:collapse;font-size:13px}
-.compare-table th{padding:10px 12px;background:var(--bg3);color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;text-align:left}
-.compare-table th:first-child{border-radius:var(--radius-sm) 0 0 0}
-.compare-table th:last-child{border-radius:0 var(--radius-sm) 0 0}
+.compare-table th{padding:10px 12px;background:var(--bg3);color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;text-align:left;border-bottom:1px solid var(--border)}
 .compare-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
 .compare-table tr:last-child td{border-bottom:none}
-.compare-table .winner-col{background:rgba(232,255,71,0.04);border-left:2px solid rgba(232,255,71,0.3);border-right:2px solid rgba(232,255,71,0.3)}
-.compare-table .winner-col-top{border-top:2px solid rgba(232,255,71,0.3)}
-.compare-table .winner-col-bottom{border-bottom:2px solid rgba(232,255,71,0.3) !important;border-radius:0 0 var(--radius-sm) var(--radius-sm)}
+.winner-col{background:rgba(232,255,71,0.04);border-left:2px solid rgba(232,255,71,0.2);border-right:2px solid rgba(232,255,71,0.2)}
 .winner-badge{background:var(--accent);color:#000;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px}
-/* VERDICT BOX */
 .verdict-box{border-radius:var(--radius-sm);padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:16px}
 .verdict-post{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3)}
 .verdict-wait{background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3)}
-.verdict-icon{font-size:32px;flex-shrink:0}
-.verdict-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
-.verdict-reason{font-size:13px;color:var(--text2);margin-top:4px;line-height:1.6}
-/* OUTPUT SECTION */
 .output-section{margin-bottom:16px}
 .output-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
 .output-box{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:14px;font-size:14px;line-height:1.7;color:var(--text);position:relative;white-space:pre-wrap;min-height:50px}
-/* TABS */
 .tab-bar{display:flex;gap:4px;background:var(--bg3);border-radius:var(--radius-sm);padding:4px;margin-bottom:16px}
 .tab-btn{flex:1;padding:8px;border:none;background:transparent;color:var(--text2);border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all 0.2s;font-family:'DM Sans',sans-serif}
 .tab-btn.active{background:var(--card2);color:var(--text);border:1px solid var(--border2)}
-/* DRIVE PICKER */
-.drive-btn{display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);cursor:pointer;transition:all 0.2s;width:100%;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif}
-.drive-btn:hover{border-color:var(--accent);color:var(--accent)}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
@@ -170,8 +143,6 @@ select option{background:var(--bg2)}
   .main{margin-left:0;margin-bottom:60px}
   .stat-grid{grid-template-columns:1fr 1fr}
   .dept-status{grid-template-columns:1fr}
-  .compare-table{font-size:11px}
-  .compare-table td,.compare-table th{padding:8px 6px}
 }
 </style>
 </head>
@@ -208,7 +179,7 @@ select option{background:var(--bg2)}
         <div><div class="profile-name" id="cmd-name">Shubh | Gym & Fitness</div><div class="profile-handle">@shubh_log</div></div>
         <div style="margin-left:auto;text-align:right"><div class="badge badge-green">● Connected</div><div style="font-size:11px;color:var(--text3);margin-top:4px" id="last-sync">Syncing...</div></div>
       </div>
-      <div class="profile-bio" id="cmd-bio">Loading...</div>
+      <div class="profile-bio" id="cmd-bio">Loading profile...</div>
     </div>
     <div class="card">
       <div class="card-title">⚡ One Instruction → All Departments</div>
@@ -217,10 +188,10 @@ select option{background:var(--bg2)}
         <button class="cmd-send" onclick="runCommand()">→</button>
       </div>
       <div class="dept-status">
-        <div class="dept-item"><div class="dept-dot" id="d-analytics"></div><div><div class="dept-name">📊 Analytics</div><div class="dept-status-text" id="ds-analytics">Idle</div></div></div>
-        <div class="dept-item"><div class="dept-dot" id="d-content"></div><div><div class="dept-name">✍️ Content AI</div><div class="dept-status-text" id="ds-content">Idle</div></div></div>
-        <div class="dept-item"><div class="dept-dot" id="d-tracker"></div><div><div class="dept-name">🎯 75-Day Plan</div><div class="dept-status-text" id="ds-tracker">Idle</div></div></div>
-        <div class="dept-item"><div class="dept-dot" id="d-marketing"></div><div><div class="dept-name">📣 Marketing</div><div class="dept-status-text" id="ds-marketing">Idle</div></div></div>
+        <div class="dept-item"><div class="dept-dot" id="d-analytics"></div><div><div style="font-size:13px;font-weight:500">📊 Analytics</div><div style="font-size:11px;color:var(--text3)" id="ds-analytics">Idle</div></div></div>
+        <div class="dept-item"><div class="dept-dot" id="d-content"></div><div><div style="font-size:13px;font-weight:500">✍️ Content AI</div><div style="font-size:11px;color:var(--text3)" id="ds-content">Idle</div></div></div>
+        <div class="dept-item"><div class="dept-dot" id="d-tracker"></div><div><div style="font-size:13px;font-weight:500">🎯 75-Day Plan</div><div style="font-size:11px;color:var(--text3)" id="ds-tracker">Idle</div></div></div>
+        <div class="dept-item"><div class="dept-dot" id="d-marketing"></div><div><div style="font-size:13px;font-weight:500">📣 Marketing</div><div style="font-size:11px;color:var(--text3)" id="ds-marketing">Idle</div></div></div>
       </div>
     </div>
     <div class="card" id="cmd-output-card" style="display:none"><div class="card-title">Campaign Pack 📦</div><div class="ai-output" id="cmd-output"></div></div>
@@ -237,24 +208,24 @@ select option{background:var(--bg2)}
   <div class="page" id="page-analytics">
     <div class="sec-header"><div><div class="sec-title">Analytics 📊</div><div class="sec-sub">Live from Windsor.ai</div></div><button class="btn btn-ghost btn-sm" onclick="refreshAll()">↻ Refresh</button></div>
     <div class="stat-grid">
-      <div class="stat-card"><div class="stat-label">Followers</div><div class="stat-val" id="a-followers">9</div><div class="stat-sub">Growing</div></div>
-      <div class="stat-card"><div class="stat-label">Following</div><div class="stat-val" id="a-following">11</div><div class="stat-sub">accounts</div></div>
+      <div class="stat-card"><div class="stat-label">Followers</div><div class="stat-val" id="a-followers">9</div></div>
+      <div class="stat-card"><div class="stat-label">Following</div><div class="stat-val" id="a-following">11</div></div>
       <div class="stat-card"><div class="stat-label">Posts</div><div class="stat-val" id="a-posts">0</div><div class="stat-sub">post first!</div></div>
       <div class="stat-card"><div class="stat-label">Engagement %</div><div class="stat-val" id="a-eng">—</div><div class="stat-sub">needs posts</div></div>
     </div>
-    <div class="card"><div class="card-title">📈 Growth Insight</div><div style="font-size:14px;line-height:1.7;color:var(--text2)">You're on Day <strong id="gi-day" style="color:var(--accent)">1</strong> of 75 with 9 followers. <strong style="color:var(--text)">Post your first reel TODAY at 7:30 PM.</strong> All engagement data unlocks after your first post.</div></div>
+    <div class="card"><div class="card-title">📈 Growth Insight</div><div style="font-size:14px;line-height:1.7;color:var(--text2)">Day <strong id="gi-day" style="color:var(--accent)">1</strong> of 75. 9 followers. <strong style="color:var(--text)">Post your first reel TODAY at 7:30 PM.</strong></div></div>
     <div class="card">
       <div class="card-title">⏰ Best Time to Post</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid rgba(232,255,71,0.3)"><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--accent)">7:30 PM</div><div style="font-size:11px;color:var(--text2);margin-top:4px">Recommended<br>India peak</div></div>
-        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:var(--radius-sm)"><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">6:30 AM</div><div style="font-size:11px;color:var(--text2);margin-top:4px">Morning<br>gym crowd</div></div>
-        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:var(--radius-sm)"><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">12:00 PM</div><div style="font-size:11px;color:var(--text2);margin-top:4px">Lunch<br>scroll</div></div>
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid rgba(232,255,71,0.3)"><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--accent)">7:30 PM</div><div style="font-size:11px;color:var(--text2);margin-top:4px">Recommended</div></div>
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:var(--radius-sm)"><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">6:30 AM</div><div style="font-size:11px;color:var(--text2);margin-top:4px">Morning</div></div>
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:var(--radius-sm)"><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">12:00 PM</div><div style="font-size:11px;color:var(--text2);margin-top:4px">Lunch</div></div>
       </div>
     </div>
-    <div class="card"><div class="card-title">🧠 AI Account Analysis</div><button class="btn btn-accent btn-sm" onclick="runAnalysis()" style="margin-bottom:12px">Analyse My Account</button><div class="ai-output" id="analysis-output" style="display:none"></div></div>
+    <div class="card"><div class="card-title">🧠 AI Analysis</div><button class="btn btn-accent btn-sm" onclick="runAnalysis()" style="margin-bottom:12px">Analyse My Account</button><div class="ai-output" id="analysis-output" style="display:none"></div></div>
   </div>
 
-  <!-- 75-DAY TRACKER -->
+  <!-- TRACKER -->
   <div class="page" id="page-tracker">
     <div class="sec-header"><div><div class="sec-title">75-Day Challenge 🎯</div><div class="sec-sub">Started June 7, 2026</div></div><div class="badge badge-yellow" id="tracker-badge">Day 1/75</div></div>
     <div class="card">
@@ -280,7 +251,7 @@ select option{background:var(--bg2)}
 
   <!-- CALENDAR -->
   <div class="page" id="page-calendar">
-    <div class="sec-header"><div><div class="sec-title">Content Calendar 📅</div><div class="sec-sub">Your 75-day posting plan</div></div></div>
+    <div class="sec-header"><div><div class="sec-title">Content Calendar 📅</div></div></div>
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
         <button class="btn btn-ghost btn-sm" onclick="calNav(-1)">← Prev</button>
@@ -300,7 +271,7 @@ select option{background:var(--bg2)}
 
   <!-- CAPTION AI -->
   <div class="page" id="page-caption">
-    <div class="sec-header"><div><div class="sec-title">Caption AI ✍️</div><div class="sec-sub">Powered by Claude</div></div></div>
+    <div class="sec-header"><div><div class="sec-title">Caption AI ✍️</div><div class="sec-sub">Powered by Gemini AI — Free</div></div></div>
     <div class="card">
       <div class="card-title">Generate Caption</div>
       <div style="display:grid;gap:10px;margin-bottom:12px">
@@ -330,51 +301,36 @@ select option{background:var(--bg2)}
 
   <!-- POST ANALYSER -->
   <div class="page" id="page-postanalyser">
-    <div class="sec-header"><div><div class="sec-title">Post Analyser 🎬</div><div class="sec-sub">Upload your final reel or photo — get score, caption & verdict</div></div></div>
-
+    <div class="sec-header"><div><div class="sec-title">Post Analyser 🎬</div><div class="sec-sub">Upload final reel or photo → score, caption, verdict</div></div></div>
     <div class="card">
       <div class="card-title">📤 Upload Final Content</div>
-      <div class="tab-bar" style="margin-bottom:16px">
+      <div class="tab-bar">
         <button class="tab-btn active" id="pa-tab-device" onclick="switchPATab('device')">📱 From Device</button>
         <button class="tab-btn" id="pa-tab-drive" onclick="switchPATab('drive')">☁️ Google Drive</button>
       </div>
-
-      <!-- Device Upload -->
       <div id="pa-device-section">
         <div class="upload-zone" id="pa-upload-zone">
-          <input type="file" id="pa-file-input" accept="image/*,video/*" onchange="handlePAFile(event)">
-          <div class="upload-icon">🎬</div>
-          <div class="upload-title">Drop your reel or photo here</div>
-          <div class="upload-sub">MP4, MOV, JPG, PNG · Max 20MB · Final edited content only</div>
+          <input type="file" id="pa-file-input" accept="image/*,video/mp4,video/quicktime" onchange="handlePAFile(event)">
+          <div style="font-size:36px;margin-bottom:12px">🎬</div>
+          <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px">Drop your reel or photo here</div>
+          <div style="font-size:13px;color:var(--text2)">MP4, MOV, JPG, PNG · Max 20MB · Final edited content only</div>
         </div>
-        <div id="pa-preview" style="display:none" class="upload-preview"></div>
-        <div id="pa-file-info" style="display:none;margin-top:10px;font-size:12px;color:var(--text2)"></div>
+        <div id="pa-preview" class="upload-preview"></div>
+        <div id="pa-file-info" style="font-size:12px;color:var(--text2);margin-top:8px"></div>
       </div>
-
-      <!-- Drive Upload -->
       <div id="pa-drive-section" style="display:none">
-        <button class="drive-btn" onclick="openDrivePicker('post')">
-          <span style="font-size:20px">☁️</span>
-          <div style="text-align:left"><div style="font-weight:500">Browse Google Drive</div><div style="font-size:12px;color:var(--text2)">Select your final reel or photo</div></div>
-        </button>
-        <div id="pa-drive-selected" style="display:none;margin-top:10px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);font-size:13px"></div>
+        <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:16px;font-size:13px;color:var(--text2);line-height:1.7">
+          ☁️ <strong style="color:var(--text)">Google Drive:</strong> Open Google Drive, download your file to your device, then use "From Device" tab to upload it. Direct Drive integration coming soon.
+        </div>
       </div>
-
-      <div style="margin-top:16px">
-        <input type="text" id="pa-context" placeholder="Optional: describe anything specific (e.g. 'chest day, attitude vibe, no audio yet')">
-      </div>
+      <div style="margin-top:12px"><input type="text" id="pa-context" placeholder="Describe the content briefly (e.g. 'chest day, attitude vibe, arm pump')"></div>
       <button class="btn btn-accent" style="margin-top:12px;width:100%" onclick="analysePost()" id="pa-btn">🔍 Analyse & Generate Everything</button>
     </div>
-
-    <!-- RESULTS -->
     <div id="pa-results" style="display:none">
-      <!-- VERDICT -->
       <div id="pa-verdict-box" class="verdict-box verdict-post">
-        <div class="verdict-icon" id="pa-verdict-icon">✅</div>
-        <div><div class="verdict-title" id="pa-verdict-title">Post This</div><div class="verdict-reason" id="pa-verdict-reason">Loading...</div></div>
+        <div style="font-size:32px;flex-shrink:0" id="pa-verdict-icon">✅</div>
+        <div><div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700" id="pa-verdict-title">Post This</div><div style="font-size:13px;color:var(--text2);margin-top:4px;line-height:1.6" id="pa-verdict-reason">Loading...</div></div>
       </div>
-
-      <!-- SCORE ROW -->
       <div class="card">
         <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
           <div class="score-ring">
@@ -384,14 +340,9 @@ select option{background:var(--bg2)}
             </svg>
             <div class="score-ring-num"><span class="score-num" id="pa-score-num">0</span><span class="score-label">/ 100</span></div>
           </div>
-          <div style="flex:1">
-            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:10px">Content Score Breakdown</div>
-            <div id="pa-score-breakdown" style="font-size:13px;line-height:2;color:var(--text2)"></div>
-          </div>
+          <div style="flex:1"><div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px">Score Breakdown</div><div id="pa-score-breakdown" style="font-size:13px;line-height:2;color:var(--text2)"></div></div>
         </div>
       </div>
-
-      <!-- CAPTION OUTPUT -->
       <div class="card">
         <div class="card-title">✍️ Generated From Your Content</div>
         <div class="output-section"><div class="output-label">Short Caption</div><div class="output-box" id="pa-cap-short"><button class="copy-btn" onclick="copyEl('pa-cap-short')">Copy</button></div></div>
@@ -400,48 +351,36 @@ select option{background:var(--bg2)}
         <div class="output-section"><div class="output-label">Best Time to Post</div><div class="output-box" id="pa-posttime"><button class="copy-btn" onclick="copyEl('pa-posttime')">Copy</button></div></div>
         <div class="output-section"><div class="output-label">First Comment (SEO)</div><div class="output-box" id="pa-firstcomment"><button class="copy-btn" onclick="copyEl('pa-firstcomment')">Copy</button></div></div>
       </div>
-
-      <!-- IMPROVEMENTS -->
-      <div class="card"><div class="card-title">🔧 Before You Post</div><div class="output-box" id="pa-improvements"></div></div>
+      <div class="card"><div class="card-title">🔧 Improvements Before Posting</div><div class="output-box" id="pa-improvements"></div></div>
     </div>
   </div>
 
   <!-- EDIT ADVISOR -->
   <div class="page" id="page-editadvisor">
-    <div class="sec-header"><div><div class="sec-title">Edit Advisor 🎨</div><div class="sec-sub">Upload raw frames — get color grading & filter suggestions</div></div></div>
-
+    <div class="sec-header"><div><div class="sec-title">Edit Advisor 🎨</div><div class="sec-sub">Upload raw frames → color grading & filter suggestions</div></div></div>
     <div class="card">
-      <div class="card-title">📸 Upload Raw Frame(s)</div>
       <div style="background:rgba(232,255,71,0.06);border:1px solid rgba(232,255,71,0.2);border-radius:var(--radius-sm);padding:12px;margin-bottom:16px;font-size:13px;color:var(--text2)">
-        💡 <strong style="color:var(--text)">How to get frames from iPhone video:</strong> Open video → pause at a good moment → screenshot. Upload 2-3 screenshots for best results.
+        💡 <strong style="color:var(--text)">How to get frames from iPhone:</strong> Open video → pause at good moment → screenshot. Upload 2-3 screenshots for best results.
       </div>
-
       <div class="tab-bar">
         <button class="tab-btn active" id="ea-tab-device" onclick="switchEATab('device')">📱 From Device</button>
         <button class="tab-btn" id="ea-tab-drive" onclick="switchEATab('drive')">☁️ Google Drive</button>
       </div>
-
-      <!-- Device Upload -->
       <div id="ea-device-section">
         <div class="upload-zone" id="ea-upload-zone">
           <input type="file" id="ea-file-input" accept="image/*" multiple onchange="handleEAFiles(event)">
-          <div class="upload-icon">📸</div>
-          <div class="upload-title">Drop 2-3 frame screenshots here</div>
-          <div class="upload-sub">JPG or PNG only · Multiple files allowed · Screenshots from your video</div>
+          <div style="font-size:36px;margin-bottom:12px">📸</div>
+          <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px">Drop 2-3 frame screenshots</div>
+          <div style="font-size:13px;color:var(--text2)">JPG or PNG only · Multiple files · Screenshots from your video</div>
         </div>
         <div id="ea-previews" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"></div>
       </div>
-
-      <!-- Drive Upload -->
       <div id="ea-drive-section" style="display:none">
-        <button class="drive-btn" onclick="openDrivePicker('edit')">
-          <span style="font-size:20px">☁️</span>
-          <div style="text-align:left"><div style="font-weight:500">Browse Google Drive</div><div style="font-size:12px;color:var(--text2)">Select frame screenshots</div></div>
-        </button>
-        <div id="ea-drive-selected" style="display:none;margin-top:10px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);font-size:13px"></div>
+        <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:16px;font-size:13px;color:var(--text2);line-height:1.7">
+          ☁️ Download screenshots from Drive to your device, then use "From Device" tab.
+        </div>
       </div>
-
-      <div style="margin-top:16px;display:grid;gap:10px">
+      <div style="margin-top:12px;display:grid;gap:10px">
         <select id="ea-style">
           <option value="gym aesthetic dark moody">Gym Aesthetic — Dark & Moody</option>
           <option value="bright energetic gym">Bright & Energetic</option>
@@ -454,42 +393,21 @@ select option{background:var(--bg2)}
       </div>
       <button class="btn btn-accent" style="margin-top:12px;width:100%" onclick="analyseEdit()" id="ea-btn">🎨 Get Edit Suggestions</button>
     </div>
-
-    <!-- EDIT RESULTS -->
     <div id="ea-results" style="display:none">
       <div class="card">
         <div class="card-title">🏆 Recommended App</div>
-        <div id="ea-winner-box" style="display:flex;align-items:center;gap:14px;padding:14px;background:rgba(232,255,71,0.06);border:1px solid rgba(232,255,71,0.3);border-radius:var(--radius-sm)">
-          <div style="font-size:36px" id="ea-winner-icon">🏅</div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px;background:rgba(232,255,71,0.06);border:1px solid rgba(232,255,71,0.3);border-radius:var(--radius-sm)">
+          <div style="font-size:36px" id="ea-winner-icon">🎬</div>
           <div><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700" id="ea-winner-name">CapCut</div><div style="font-size:13px;color:var(--text2);margin-top:4px" id="ea-winner-reason">Loading...</div></div>
-          <div style="margin-left:auto;text-align:right"><div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent)" id="ea-winner-score">—</div><div style="font-size:11px;color:var(--text2)">/ 100</div></div>
+          <div style="margin-left:auto;text-align:right"><div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent)" id="ea-winner-score">—</div><div style="font-size:11px;color:var(--text2)">/100</div></div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">📊 App Comparison</div>
-        <div style="overflow-x:auto">
-          <table class="compare-table" id="ea-compare-table">
-            <thead>
-              <tr>
-                <th>Setting</th>
-                <th id="capcut-header">CapCut</th>
-                <th id="vn-header">VN</th>
-                <th id="edits-header">Edits (Instagram)</th>
-              </tr>
-            </thead>
-            <tbody id="ea-compare-body"></tbody>
-          </table>
-        </div>
+        <div style="overflow-x:auto"><table class="compare-table"><thead><tr><th>Setting</th><th id="th-capcut">CapCut</th><th id="th-vn">VN</th><th id="th-edits">Edits</th></tr></thead><tbody id="ea-compare-body"></tbody></table></div>
       </div>
-
-      <div class="card">
-        <div class="card-title">📋 Step-by-Step Edit Guide</div>
-        <div style="font-size:12px;color:var(--text2);margin-bottom:12px" id="ea-guide-app">For winning app:</div>
-        <div class="output-box" id="ea-step-guide"></div>
-      </div>
-
-      <div class="card"><div class="card-title">⚠️ Things to Avoid</div><div class="output-box" id="ea-avoid"></div></div>
+      <div class="card"><div class="card-title" id="ea-guide-label">📋 Step-by-Step Guide</div><div class="output-box" id="ea-step-guide"></div></div>
+      <div class="card"><div class="card-title">⚠️ Avoid These</div><div class="output-box" id="ea-avoid"></div></div>
     </div>
   </div>
 
@@ -498,7 +416,7 @@ select option{background:var(--bg2)}
     <div class="sec-header"><div><div class="sec-title">Competitor Pulse 🔍</div><div class="sec-sub">Study format, never copy content</div></div></div>
     <div class="card"><div class="card-title">Add Competitor</div><div style="display:flex;gap:8px"><input type="text" id="comp-input" placeholder="@handle" onkeydown="if(event.key==='Enter')addCompetitor()"><button class="btn btn-accent btn-sm" onclick="addCompetitor()">Add</button></div></div>
     <div id="comp-list"></div>
-    <div class="card"><div class="card-title">📊 Niche Analysis</div><button class="btn btn-ghost btn-sm" onclick="analyseCompetitors()" style="margin-bottom:12px">Analyse Indian Gym Niche</button><div class="ai-output" id="comp-analysis" style="display:none"></div></div>
+    <div class="card"><div class="card-title">📊 Indian Gym Niche Analysis</div><button class="btn btn-ghost btn-sm" onclick="analyseCompetitors()" style="margin-bottom:12px">Run Analysis</button><div class="ai-output" id="comp-analysis" style="display:none"></div></div>
   </div>
 
   <!-- MONETIZATION -->
@@ -507,6 +425,7 @@ select option{background:var(--bg2)}
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div class="card-title" style="margin-bottom:0">Readiness Score</div><span style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--orange)" id="mono-score">12%</span></div>
       <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" id="mono-bar" style="width:12%;background:var(--orange)"></div></div></div>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px">Post consistently for 75 days to unlock milestones</div>
     </div>
     <div id="milestones-list"></div>
   </div>
@@ -527,9 +446,9 @@ select option{background:var(--bg2)}
 </div>
 
 <script>
-const CLAUDE_API='https://api.anthropic.com/v1/messages';
 const WINDSOR_KEY='5e0c944a5dac653e50dbdcccc0aa8f110d45';
-let state={followers:9,following:11,posts:0,bio:'🏋️ Gym grind | Real progress, no filter\n📍 India\n🎯 Posting my fitness journey\n👇 Follow the log',name:'Shubh | Gym & Fitness',trackerData:JSON.parse(localStorage.getItem('td')||'{}'),reminders:JSON.parse(localStorage.getItem('rem')||'[]'),competitors:JSON.parse(localStorage.getItem('comp')||'[]'),calMonth:5,calYear:2026,currentDay:1,paFiles:[],eaFiles:[]};
+const AI_ENDPOINT='/.netlify/functions/gemini';
+let state={followers:9,following:11,posts:0,bio:'🏋️ Gym grind | Real progress, no filter\n📍 India\n🎯 Posting my fitness journey\n👇 Follow the log',name:'Shubh | Gym & Fitness',trackerData:JSON.parse(localStorage.getItem('td')||'{}'),reminders:JSON.parse(localStorage.getItem('rem')||'[]'),competitors:JSON.parse(localStorage.getItem('comp')||'[]'),calMonth:5,calYear:2026,currentDay:1,paFile:null,eaFiles:[]};
 
 const PLAN=[
   {day:1,date:'Jun 7',workout:'Chest + Biceps + Cardio',vibe:'Aesthetic',concept:'Slow-mo bicep peak + chest press',text:'arm day did something to me',audio:'Attitude / phonk'},
@@ -549,43 +468,45 @@ const PLAN=[
 ];
 
 const HOOKS=[
-  {vibe:'Attitude',text:"they'll get it when it's too late"},
-  {vibe:'Attitude',text:"quiet work. loud results."},
-  {vibe:'Attitude',text:"let them doubt."},
-  {vibe:'Attitude',text:"built different, on purpose"},
-  {vibe:'Funny',text:"nobody: / me after 1 set:"},
-  {vibe:'Funny',text:"me pretending this isn't heavy:"},
-  {vibe:'Funny',text:"leg day: the betrayal"},
-  {vibe:'Funny',text:"my arms after set 4:"},
-  {vibe:'Funny',text:"fat loss day be like:"},
-  {vibe:'Motivational',text:"one more. always one more."},
-  {vibe:'Motivational',text:"the rep that burns is the one that counts"},
-  {vibe:'Motivational',text:"1% better. 75 days."},
-  {vibe:'Motivational',text:"show up ugly. just show up."},
-  {vibe:'Aesthetic',text:"chasing the pump, not the likes"},
-  {vibe:'Aesthetic',text:"boulder shoulders loading…"},
+  {vibe:'Attitude',text:"they'll get it when it's too late"},{vibe:'Attitude',text:"quiet work. loud results."},
+  {vibe:'Attitude',text:"let them doubt."},{vibe:'Attitude',text:"built different, on purpose"},
+  {vibe:'Funny',text:"nobody: / me after 1 set:"},{vibe:'Funny',text:"me pretending this isn't heavy:"},
+  {vibe:'Funny',text:"leg day: the betrayal"},{vibe:'Funny',text:"fat loss day be like:"},
+  {vibe:'Motivational',text:"one more. always one more."},{vibe:'Motivational',text:"1% better. 75 days."},
+  {vibe:'Motivational',text:"show up ugly. just show up."},{vibe:'Aesthetic',text:"chasing the pump, not the likes"},
+  {vibe:'Aesthetic',text:"boulder shoulders loading…"},{vibe:'Aesthetic',text:"arm day did something to me"},
 ];
 
 const MILESTONES=[
   {icon:'🎁',title:'Brand Gifting',desc:'Free products from gym brands',target:'500 followers',followers:500,earn:'Free supplements, gear'},
   {icon:'🤝',title:'Micro-Influencer Deals',desc:'Paid collaborations',target:'1,000 followers',followers:1000,earn:'₹2,000–₹5,000/post'},
-  {icon:'💸',title:'Affiliate Marketing',desc:'Commission on product links',target:'1,000 followers',followers:1000,earn:'5–15% commission'},
+  {icon:'💸',title:'Affiliate Marketing',desc:'Commission on links',target:'1,000 followers',followers:1000,earn:'5–15% commission'},
   {icon:'📱',title:'Instagram Subscriptions',desc:'Paid exclusive content',target:'10,000 followers',followers:10000,earn:'₹100–₹500/subscriber/month'},
   {icon:'🏪',title:'Creator Marketplace',desc:'Brand connections via Instagram',target:'10,000 followers',followers:10000,earn:'Varies'},
 ];
 
 const INSPECT_CHECKS=[
   {label:'Profile photo set',ok:true,tip:'Keep it clear, face visible, good light'},
-  {label:'Name field has keywords',ok:true,tip:'"Shubh | Gym & Fitness" is great for Instagram SEO'},
+  {label:'Name field has keywords',ok:true,tip:'"Shubh | Gym & Fitness" is great for SEO'},
   {label:'Bio has CTA',ok:true,tip:'Your bio already has a follow CTA'},
-  {label:'Switched to Creator account',ok:false,tip:'URGENT: Settings → Account type → Creator. Unlocks real Insights'},
+  {label:'Switched to Creator account',ok:false,tip:'URGENT: Settings → Account type → Creator'},
   {label:'First post published',ok:false,tip:'Post your first reel TODAY at 7:30 PM'},
   {label:'Highlights added',ok:false,tip:'Add: Best Of, Gym Vibes, Fun highlights'},
   {label:'Link in bio',ok:false,tip:'Add a Linktree or any link'},
   {label:'Pinned post',ok:false,tip:'After first post, pin your best reel'},
 ];
 
-// NAV
+// AI CALL via Netlify Function
+async function callAI(prompt, imageData, mimeType, isMultiImage, images) {
+  const body = { prompt };
+  if (imageData && mimeType) { body.imageData = imageData; body.mimeType = mimeType; }
+  if (isMultiImage && images) { body.isMultiImage = true; body.images = images; }
+  const r = await fetch(AI_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  const data = await r.json();
+  if (data.error) throw new Error(data.error);
+  return data.text;
+}
+
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -614,13 +535,9 @@ function init(){
 }
 
 function updateUI(){
-  document.getElementById('s-followers').textContent=state.followers;
-  document.getElementById('s-following').textContent=state.following;
-  document.getElementById('s-posts').textContent=state.posts;
-  document.getElementById('tb-followers').textContent=state.followers;
-  document.getElementById('a-followers').textContent=state.followers;
-  document.getElementById('a-following').textContent=state.following;
-  document.getElementById('a-posts').textContent=state.posts;
+  ['s-followers','a-followers','tb-followers'].forEach(id=>document.getElementById(id).textContent=state.followers);
+  ['s-following','a-following'].forEach(id=>document.getElementById(id).textContent=state.following);
+  ['s-posts','a-posts'].forEach(id=>document.getElementById(id).textContent=state.posts);
   document.getElementById('cmd-bio').textContent=state.bio.replace(/\n/g,' · ');
   document.getElementById('cmd-name').textContent=state.name;
   document.getElementById('last-sync').textContent='Synced '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
@@ -644,17 +561,14 @@ async function refreshAll(){
   btn.textContent='↻ Refresh';
 }
 
-// TODAY PLAN
 function renderTodayPlan(){
   const today=PLAN.find(p=>p.day===state.currentDay)||PLAN[0];
-  const el=document.getElementById('today-plan-content');
-  if(!el)return;
+  const el=document.getElementById('today-plan-content');if(!el)return;
   if(today.vibe==='REST'){el.innerHTML=`<div class="badge badge-purple">Rest Day 💤</div><div style="font-size:13px;color:var(--text2);margin-top:8px;line-height:1.7">Batch-film next week's clips. Save 5 trending audios. Review stats.</div>`;return;}
   const vc={Aesthetic:'badge-yellow',Funny:'badge-pink',Motivational:'badge-purple',Attitude:'badge-orange',Lifestyle:'badge-green'};
   el.innerHTML=`<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"><span class="badge ${vc[today.vibe]||'badge-yellow'}">${today.vibe}</span><span class="badge badge-green">Post 7:30 PM</span></div><div style="font-size:13px;color:var(--text2);line-height:1.9"><div><strong style="color:var(--text)">Workout:</strong> ${today.workout}</div><div><strong style="color:var(--text)">Concept:</strong> ${today.concept}</div><div><strong style="color:var(--text)">Hook:</strong> <span style="color:var(--accent)">"${today.text}"</span></div><div><strong style="color:var(--text)">Audio:</strong> ${today.audio}</div></div>`;
 }
 
-// TRACKER
 function renderTracker(){
   const tbody=document.getElementById('tracker-body');if(!tbody)return;tbody.innerHTML='';
   PLAN.slice(0,7).forEach(day=>{
@@ -669,7 +583,6 @@ function saveField(day,field,val){if(!state.trackerData[day])state.trackerData[d
 function updateTrackerStats(){let p=0,v=0,mf=state.followers;PLAN.slice(0,7).forEach(d=>{const s=state.trackerData[d.day]||{};if(s.posted)p++;v+=s.views||0;if(s.followers)mf=Math.max(mf,s.followers);});document.getElementById('t-posts').textContent=p;document.getElementById('t-views').textContent=v.toLocaleString();document.getElementById('t-avg').textContent=p?Math.round(v/p):0;document.getElementById('t-gained').textContent=Math.max(0,mf-state.followers);}
 function saveTrackerData(){localStorage.setItem('td',JSON.stringify(state.trackerData));showToast('Progress saved ✓');}
 
-// CALENDAR
 function renderCalendar(){
   const grid=document.getElementById('cal-grid');const label=document.getElementById('cal-month-label');
   const fm=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -701,7 +614,6 @@ function renderReminders(){const list=document.getElementById('reminders-list');
 function addReminder(){const v=document.getElementById('reminder-input').value.trim();if(!v)return;state.reminders.push(v);localStorage.setItem('rem',JSON.stringify(state.reminders));document.getElementById('reminder-input').value='';renderReminders();}
 function removeReminder(i){state.reminders.splice(i,1);localStorage.setItem('rem',JSON.stringify(state.reminders));renderReminders();}
 
-// HOOKS
 function renderHooks(filter){
   const grid=document.getElementById('hook-grid');if(!grid)return;
   const f=filter==='all'?HOOKS:HOOKS.filter(h=>h.vibe===filter);
@@ -710,7 +622,6 @@ function renderHooks(filter){
 function filterHooks(f){renderHooks(f);}
 function copyHook(t){navigator.clipboard.writeText(t);showToast('Hook copied!');}
 
-// COMPETITORS
 function renderCompetitors(){
   const list=document.getElementById('comp-list');if(!list)return;
   if(!state.competitors.length){list.innerHTML='<div class="card" style="color:var(--text2);font-size:13px">No competitors added yet.</div>';return;}
@@ -719,26 +630,24 @@ function renderCompetitors(){
 function addCompetitor(){const v=document.getElementById('comp-input').value.trim().replace('@','');if(!v)return;if(!state.competitors.includes(v))state.competitors.push(v);localStorage.setItem('comp',JSON.stringify(state.competitors));document.getElementById('comp-input').value='';renderCompetitors();}
 function removeCompetitor(i){state.competitors.splice(i,1);localStorage.setItem('comp',JSON.stringify(state.competitors));renderCompetitors();}
 
-// MILESTONES
 function renderMilestones(){
   const list=document.getElementById('milestones-list');if(!list)return;
-  list.innerHTML=MILESTONES.map(m=>{const u=state.followers>=m.followers;return`<div class="mono-milestone ${u?'unlocked':'locked'}"><div class="mono-icon">${m.icon}</div><div class="mono-info"><div class="mono-title">${m.title}</div><div class="mono-desc">${m.desc}</div><div style="font-size:11px;color:var(--green);margin-top:4px">${m.earn}</div></div><div style="text-align:right"><div style="font-size:12px;font-weight:700;color:${u?'var(--green)':'var(--text3)'}">${m.target}</div><div class="badge ${u?'badge-green':'badge-orange'}" style="margin-top:4px">${u?'✓ Unlocked':'Locked'}</div></div></div>`;}).join('');
+  list.innerHTML=MILESTONES.map(m=>{const u=state.followers>=m.followers;return`<div class="mono-milestone ${u?'unlocked':'locked'}"><div style="font-size:24px;flex-shrink:0">${m.icon}</div><div style="flex:1"><div style="font-weight:600;font-size:14px">${m.title}</div><div style="font-size:12px;color:var(--text2);margin-top:3px">${m.desc}</div><div style="font-size:11px;color:var(--green);margin-top:4px">${m.earn}</div></div><div style="text-align:right"><div style="font-size:12px;font-weight:700;color:${u?'var(--green)':'var(--text3)'}">${m.target}</div><div class="badge ${u?'badge-green':'badge-orange'}" style="margin-top:4px">${u?'✓ Unlocked':'Locked'}</div></div></div>`;}).join('');
 }
 
-// INSPECTOR
 function renderInspector(){
   const list=document.getElementById('inspect-checks');if(!list)return;
   list.innerHTML=INSPECT_CHECKS.map(c=>`<div class="card" style="padding:14px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:20px">${c.ok?'✅':'❌'}</div><div style="flex:1"><div style="font-size:14px;font-weight:500">${c.label}</div><div style="font-size:12px;color:var(--text2);margin-top:3px">${c.tip}</div></div></div></div>`).join('');
   const score=Math.round((INSPECT_CHECKS.filter(c=>c.ok).length/INSPECT_CHECKS.length)*100);
-  document.getElementById('inspect-score').textContent=score;document.getElementById('inspect-bar').style.width=score+'%';document.getElementById('inspect-bar').style.background=score>=80?'var(--green)':score>=50?'var(--orange)':'var(--pink)';
+  document.getElementById('inspect-score').textContent=score;document.getElementById('inspect-bar').style.width=score+'%';
+  document.getElementById('inspect-bar').style.background=score>=80?'var(--green)':score>=50?'var(--orange)':'var(--pink)';
 }
 function runInspection(){refreshAll();showToast('Inspection complete ✓');}
 
 // FILE HELPERS
 function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
-function getMediaType(file){const t=file.type;if(t.startsWith('image/jpeg')||t==='image/jpg')return'image/jpeg';if(t.startsWith('image/png'))return'image/png';if(t.startsWith('image/webp'))return'image/webp';if(t.startsWith('image/gif'))return'image/gif';if(t.startsWith('video/mp4'))return'video/mp4';if(t.startsWith('video/quicktime'))return'video/mov';return t;}
+function getMime(file){const t=file.type;if(t.includes('jpeg')||t.includes('jpg'))return'image/jpeg';if(t.includes('png'))return'image/png';if(t.includes('webp'))return'image/webp';if(t.includes('mp4'))return'video/mp4';if(t.includes('quicktime'))return'video/quicktime';return t;}
 
-// TABS
 function switchPATab(tab){
   document.getElementById('pa-device-section').style.display=tab==='device'?'block':'none';
   document.getElementById('pa-drive-section').style.display=tab==='drive'?'block':'none';
@@ -752,79 +661,46 @@ function switchEATab(tab){
   document.getElementById('ea-tab-drive').className='tab-btn'+(tab==='drive'?' active':'');
 }
 
-// POST ANALYSER FILE HANDLER
-function handlePAFile(event){
-  const file=event.target.files[0];if(!file)return;
-  const maxSize=20*1024*1024;
-  if(file.size>maxSize){showToast('File too large! Max 20MB');return;}
-  state.paFiles=[file];
-  const preview=document.getElementById('pa-preview');const info=document.getElementById('pa-file-info');
-  preview.style.display='block';info.style.display='block';
+function handlePAFile(e){
+  const file=e.target.files[0];if(!file)return;
+  if(file.size>20*1024*1024){showToast('File too large! Max 20MB');return;}
+  state.paFile=file;
+  const prev=document.getElementById('pa-preview');const info=document.getElementById('pa-file-info');
   info.textContent=`${file.name} · ${(file.size/1024/1024).toFixed(1)}MB`;
-  if(file.type.startsWith('image/')){preview.innerHTML=`<img src="${URL.createObjectURL(file)}" alt="preview">`;}
-  else if(file.type.startsWith('video/')){preview.innerHTML=`<video src="${URL.createObjectURL(file)}" controls></video>`;}
+  if(file.type.startsWith('image/')){prev.innerHTML=`<img src="${URL.createObjectURL(file)}">`;}
+  else{prev.innerHTML=`<video src="${URL.createObjectURL(file)}" controls></video>`;}
   document.getElementById('pa-upload-zone').style.borderColor='var(--accent)';
 }
 
-// EDIT ADVISOR FILE HANDLER
-function handleEAFiles(event){
-  const files=Array.from(event.target.files).slice(0,4);if(!files.length)return;
+function handleEAFiles(e){
+  const files=Array.from(e.target.files).slice(0,4);if(!files.length)return;
   state.eaFiles=files;
   const container=document.getElementById('ea-previews');container.innerHTML='';
-  files.forEach(f=>{const img=document.createElement('img');img.src=URL.createObjectURL(f);img.style.cssText='width:calc(33% - 8px);border-radius:8px;border:1px solid var(--border2);object-fit:cover;aspect-ratio:9/16';container.appendChild(img);});
+  files.forEach(f=>{const img=document.createElement('img');img.src=URL.createObjectURL(f);img.style.cssText='width:calc(33% - 6px);border-radius:8px;border:1px solid var(--border2);object-fit:cover;aspect-ratio:9/16';container.appendChild(img);});
   document.getElementById('ea-upload-zone').style.borderColor='var(--accent)';
 }
 
-// GOOGLE DRIVE
-function openDrivePicker(type){showToast('Google Drive: Use the Drive section on the left to find your file, then describe it in the context field below.');}
-
-// POST ANALYSER
 async function analysePost(){
-  if(!state.paFiles.length){showToast('Please upload a file first');return;}
+  if(!state.paFile){showToast('Please upload a file first');return;}
   const btn=document.getElementById('pa-btn');btn.disabled=true;btn.textContent='🔍 Analysing...';
-  const file=state.paFiles[0];const ctx=document.getElementById('pa-context').value;
+  const ctx=document.getElementById('pa-context').value;
   try{
-    const b64=await fileToBase64(file);const mt=getMediaType(file);
-    const isVideo=file.type.startsWith('video/');
-    const prompt=`You are a professional Instagram content analyst for @shubh_log — Indian gym fitness creator, 75-day reel challenge, Day ${state.currentDay}/75. Account: ${state.followers} followers. Content style: vibe-only (Aesthetic/Funny/Motivational/Attitude), NO tips/tutorials, body-safe filming (fitted tee, side/back/face angles only), trending audio + clips.
+    const isVideo=state.paFile.type.startsWith('video/');
+    let imageData=null,mimeType=null;
+    if(!isVideo){imageData=await fileToBase64(state.paFile);mimeType=getMime(state.paFile);}
 
-${ctx?`Creator notes: ${ctx}`:''}
+    const prompt=`You are a professional Instagram content analyst for @shubh_log — Indian gym fitness creator, 75-day reel challenge, Day ${state.currentDay}/75. Stats: ${state.followers} followers. Style: vibe-only (Aesthetic/Funny/Motivational/Attitude), NO tips, body-safe filming (fitted tee, side/back/face only).\n${ctx?`Creator notes: ${ctx}\n`:''}\nAnalyse this ${isVideo?'gym reel (video)':'gym content image'} and return EXACTLY this format:\n\nVERDICT: [POST IT or HOLD IT]\nVERDICT_REASON: [1-2 sentences why]\nSCORE: [number 0-100]\nSCORE_BREAKDOWN:\nHook strength: [X]/20 — [brief reason]\nVibe match: [X]/20 — [brief reason]\nVisual quality: [X]/20 — [brief reason]\nBody-safe compliance: [X]/20 — [brief reason]\nPosting readiness: [X]/20 — [brief reason]\nSHORT_CAPTION: [1-2 punchy lines, India gym vibe]\nLONG_CAPTION: [3-5 lines + CTA like "follow the 75 👇"]\nHASHTAGS: [3-5 India gym hashtags]\nBEST_TIME: [specific time for India audience]\nFIRST_COMMENT: [SEO-optimised first comment to pin]\nIMPROVEMENTS: [2-3 specific improvements]`;
 
-Analyse this ${isVideo?'video':'image'} and return EXACTLY this format (use these exact headers):
-
-VERDICT: [POST IT or HOLD IT]
-VERDICT_REASON: [1-2 sentences why]
-SCORE: [number 0-100]
-SCORE_BREAKDOWN:
-Hook strength: [score]/20 — [brief reason]
-Vibe match: [score]/20 — [brief reason]
-Visual quality: [score]/20 — [brief reason]
-Body-safe compliance: [score]/20 — [brief reason]
-Posting readiness: [score]/20 — [brief reason]
-VIBE_DETECTED: [Aesthetic/Funny/Motivational/Attitude/Lifestyle]
-SHORT_CAPTION: [1-2 punchy lines matching detected vibe, India gym context]
-LONG_CAPTION: [3-5 lines with story + CTA like "follow the 75 👇"]
-HASHTAGS: [exactly 3-5 hashtags, India gym niche]
-BEST_TIME: [specific time recommendation for India audience]
-FIRST_COMMENT: [SEO-optimised first comment to pin, keyword-rich, natural language]
-IMPROVEMENTS: [2-3 specific things to fix/improve before posting if HOLD IT, or quick wins if POST IT]`;
-
-    const msgContent=[{type:'text',text:prompt}];
-    if(!isVideo){msgContent.push({type:'image',source:{type:'base64',media_type:mt,data:b64}});}
-    else{msgContent.push({type:'text',text:'[Video uploaded — analyse based on description and context provided. Give best recommendations for this gym reel content.]'});}
-
-    const r=await fetch(CLAUDE_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,messages:[{role:'user',content:msgContent}]})});
-    const data=await r.json();
-    const text=data.content?.[0]?.text||'';
+    const text=await callAI(prompt,imageData,mimeType);
     parsePostAnalysis(text);
     document.getElementById('pa-results').style.display='block';
     document.getElementById('pa-results').scrollIntoView({behavior:'smooth'});
-  }catch(e){showToast('Analysis failed — check file size');console.error(e);}
+  }catch(e){showToast('Analysis failed: '+e.message);}
   btn.disabled=false;btn.textContent='🔍 Analyse & Generate Everything';
 }
 
 function parsePostAnalysis(text){
-  const get=(key)=>{const m=text.match(new RegExp(key+':\\s*(.+?)(?=\\n[A-Z_]+:|$)','si'));return m?m[1].trim():'—';};
+  const get=(key)=>{const m=text.match(new RegExp(key+':\\s*([\\s\\S]+?)(?=\\n[A-Z_]+:|$)'));return m?m[1].trim():'—';};
   const verdict=get('VERDICT');const isPost=verdict.toUpperCase().includes('POST IT')&&!verdict.toUpperCase().includes('HOLD');
   const vbox=document.getElementById('pa-verdict-box');vbox.className='verdict-box '+(isPost?'verdict-post':'verdict-wait');
   document.getElementById('pa-verdict-icon').textContent=isPost?'✅':'⚠️';
@@ -832,9 +708,9 @@ function parsePostAnalysis(text){
   document.getElementById('pa-verdict-reason').textContent=get('VERDICT_REASON');
   const score=parseInt(text.match(/SCORE:\s*(\d+)/)?.[1]||'0');
   document.getElementById('pa-score-num').textContent=score;
-  const offset=251-(251*(score/100));document.getElementById('pa-score-circle').style.strokeDashoffset=offset;
+  document.getElementById('pa-score-circle').style.strokeDashoffset=251-(251*(score/100));
   document.getElementById('pa-score-circle').style.stroke=score>=75?'var(--green)':score>=50?'var(--accent)':'var(--orange)';
-  const breakdown=get('SCORE_BREAKDOWN');document.getElementById('pa-score-breakdown').textContent=breakdown;
+  document.getElementById('pa-score-breakdown').textContent=get('SCORE_BREAKDOWN');
   document.getElementById('pa-cap-short').innerHTML=`<button class="copy-btn" onclick="copyEl('pa-cap-short')">Copy</button>${get('SHORT_CAPTION')}`;
   document.getElementById('pa-cap-long').innerHTML=`<button class="copy-btn" onclick="copyEl('pa-cap-long')">Copy</button>${get('LONG_CAPTION')}`;
   document.getElementById('pa-hashtags').innerHTML=`<button class="copy-btn" onclick="copyEl('pa-hashtags')">Copy</button>${get('HASHTAGS')}`;
@@ -843,100 +719,58 @@ function parsePostAnalysis(text){
   document.getElementById('pa-improvements').textContent=get('IMPROVEMENTS');
 }
 
-// EDIT ADVISOR
 async function analyseEdit(){
   if(!state.eaFiles.length){showToast('Please upload frame screenshots first');return;}
-  const btn=document.getElementById('ea-btn');btn.disabled=true;btn.textContent='🎨 Analysing frames...';
+  const btn=document.getElementById('ea-btn');btn.disabled=true;btn.textContent='🎨 Analysing...';
   const style=document.getElementById('ea-style').value;const ctx=document.getElementById('ea-context').value;
   try{
-    const msgContent=[{type:'text',text:`You are a professional video colorist and editor for @shubh_log — Indian gym fitness creator making reels. Target style: ${style}. ${ctx?`Shot description: ${ctx}`:''}
+    const images=await Promise.all(state.eaFiles.map(async f=>({data:await fileToBase64(f),mimeType:getMime(f)})));
+    const prompt=`You are a professional video colorist for @shubh_log — Indian gym fitness creator making Instagram reels. Target style: ${style}. ${ctx?`Shot: ${ctx}.`:''}\n\nAnalyse these frame screenshots and return EXACTLY:\n\nWINNER: [CapCut or VN or Edits]\nWINNER_SCORE: [X/100]\nWINNER_REASON: [2-3 sentences why this app is best for this footage]\n\nCOMPARISON:\nSetting | CapCut | VN | Edits\nBrightness | [value] | [value] | [value]\nContrast | [value] | [value] | [value]\nSaturation | [value] | [value] | [value]\nShadows | [value] | [value] | [value]\nHighlights | [value] | [value] | [value]\nWarmth | [value] | [value] | [value]\nSharpness | [value] | [value] | [value]\nFilter | [name+strength] | [name+strength] | [name+strength]\nScore | [/100] | [/100] | [/100]\n\nSTEPS:\n[Numbered step-by-step edit guide for winning app. Simple language, exact values.]\n\nAVOID:\n[3-4 things NOT to do with this footage]`;
 
-Analyse these frame screenshots and give detailed editing suggestions.
-
-Return EXACTLY this format:
-
-WINNER: [CapCut or VN or Edits]
-WINNER_SCORE: [number/100]
-WINNER_REASON: [2-3 sentences why this app gives best result for this footage]
-
-COMPARISON_TABLE:
-Setting | CapCut | VN | Edits
-Brightness | [value] | [value] | [value]
-Contrast | [value] | [value] | [value]  
-Saturation | [value] | [value] | [value]
-Shadows | [value] | [value] | [value]
-Highlights | [value] | [value] | [value]
-Warmth/Temperature | [value] | [value] | [value]
-Sharpness | [value] | [value] | [value]
-Vignette | [value] | [value] | [value]
-Recommended Filter | [filter name + strength] | [filter name + strength] | [filter name + strength]
-Overall Score | [/100] | [/100] | [/100]
-
-STEP_BY_STEP_GUIDE:
-[Numbered step-by-step edit guide for the winning app, simple language, professional results. Include exact values.]
-
-AVOID:
-[3-4 specific things NOT to do with this footage that would ruin the look]`}];
-
-    for(const file of state.eaFiles){
-      const b64=await fileToBase64(file);const mt=getMediaType(file);
-      msgContent.push({type:'image',source:{type:'base64',media_type:mt,data:b64}});
-    }
-
-    const r=await fetch(CLAUDE_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1400,messages:[{role:'user',content:msgContent}]})});
-    const data=await r.json();const text=data.content?.[0]?.text||'';
+    const text=await callAI(prompt,null,null,true,images);
     parseEditAnalysis(text);
     document.getElementById('ea-results').style.display='block';
     document.getElementById('ea-results').scrollIntoView({behavior:'smooth'});
-  }catch(e){showToast('Analysis failed');console.error(e);}
+  }catch(e){showToast('Analysis failed: '+e.message);}
   btn.disabled=false;btn.textContent='🎨 Get Edit Suggestions';
 }
 
 function parseEditAnalysis(text){
-  const get=(key)=>{const m=text.match(new RegExp(key+':\\s*(.+?)(?=\\n[A-Z_]+:|$)','si'));return m?m[1].trim():'—';};
+  const get=(key)=>{const m=text.match(new RegExp(key+':\\s*([\\s\\S]+?)(?=\\n[A-Z]+:|$)'));return m?m[1].trim():'—';};
   const winner=get('WINNER');const wscore=get('WINNER_SCORE');const wreason=get('WINNER_REASON');
-  const winIcons={CapCut:'🎬',VN:'🎞️',Edits:'📱'};
-  document.getElementById('ea-winner-icon').textContent=winIcons[winner]||'🏅';
+  const icons={CapCut:'🎬',VN:'🎞️',Edits:'📱'};
+  document.getElementById('ea-winner-icon').textContent=icons[winner]||'🏅';
   document.getElementById('ea-winner-name').textContent=winner;
   document.getElementById('ea-winner-reason').textContent=wreason;
   document.getElementById('ea-winner-score').textContent=wscore;
-
-  // Parse comparison table
-  const tableMatch=text.match(/COMPARISON_TABLE:([\s\S]+?)(?=STEP_BY_STEP|$)/i);
+  const tableMatch=text.match(/COMPARISON:([\s\S]+?)(?=STEPS:|$)/i);
   if(tableMatch){
-    const rows=tableMatch[1].trim().split('\n').filter(r=>r.includes('|')&&!r.includes('Setting'));
+    const rows=tableMatch[1].trim().split('\n').filter(r=>r.includes('|')&&!r.toLowerCase().includes('setting'));
     const tbody=document.getElementById('ea-compare-body');tbody.innerHTML='';
-    const capWin=winner==='CapCut',vnWin=winner==='VN',edWin=winner==='Edits';
+    const cw=winner==='CapCut',vw=winner==='VN',ew=winner==='Edits';
+    if(cw)document.getElementById('th-capcut').innerHTML='CapCut <span class="winner-badge">BEST</span>';
+    if(vw)document.getElementById('th-vn').innerHTML='VN <span class="winner-badge">BEST</span>';
+    if(ew)document.getElementById('th-edits').innerHTML='Edits <span class="winner-badge">BEST</span>';
     rows.forEach(row=>{
       const cols=row.split('|').map(c=>c.trim()).filter(Boolean);
-      if(cols.length>=4){
-        const tr=document.createElement('tr');
-        tr.innerHTML=`<td style="font-weight:500;color:var(--text2)">${cols[0]}</td><td class="${capWin?'winner-col':''}">${cols[1]}</td><td class="${vnWin?'winner-col':''}">${cols[2]}</td><td class="${edWin?'winner-col':''}">${cols[3]}</td>`;
-        tbody.appendChild(tr);
-      }
+      if(cols.length>=4){const tr=document.createElement('tr');tr.innerHTML=`<td style="font-weight:500;color:var(--text2)">${cols[0]}</td><td class="${cw?'winner-col':''}">${cols[1]}</td><td class="${vw?'winner-col':''}">${cols[2]}</td><td class="${ew?'winner-col':''}">${cols[3]}</td>`;tbody.appendChild(tr);}
     });
-    if(capWin){document.getElementById('capcut-header').innerHTML='CapCut <span class="winner-badge">BEST</span>';}
-    else if(vnWin){document.getElementById('vn-header').innerHTML='VN <span class="winner-badge">BEST</span>';}
-    else if(edWin){document.getElementById('edits-header').innerHTML='Edits <span class="winner-badge">BEST</span>';}
   }
-  document.getElementById('ea-guide-app').textContent=`Step-by-step for ${winner}:`;
-  document.getElementById('ea-step-guide').textContent=get('STEP_BY_STEP_GUIDE');
+  document.getElementById('ea-guide-label').textContent=`📋 Step-by-Step for ${winner}`;
+  document.getElementById('ea-step-guide').textContent=get('STEPS');
   document.getElementById('ea-avoid').textContent=get('AVOID');
 }
 
-// CAPTION AI
 async function generateCaption(){
   const vibe=document.getElementById('cap-vibe').value;const workout=document.getElementById('cap-workout').value;const ctx=document.getElementById('cap-context').value;
   const btn=document.getElementById('cap-btn');btn.disabled=true;btn.textContent='⏳ Generating...';
-  const prompt=`Caption for @shubh_log (Indian gym creator, 75-day challenge, vibe-only, NO tips, body-safe).\nWorkout: ${workout} | Vibe: ${vibe} | Context: ${ctx||'none'}\n\nReturn ONLY:\nSHORT CAPTION:\n[1-2 lines]\n\nLONG CAPTION:\n[3-5 lines + CTA]\n\nHASHTAGS:\n[3-5 India gym hashtags]`;
   try{
-    const r=await fetch(CLAUDE_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});
-    const d=await r.json();const text=d.content?.[0]?.text||'';
+    const text=await callAI(`Caption for @shubh_log (Indian gym, 75-day challenge, vibe-only, NO tips, body-safe).\nWorkout: ${workout} | Vibe: ${vibe} | Context: ${ctx||'none'}\n\nReturn ONLY:\nSHORT CAPTION:\n[1-2 punchy lines]\n\nLONG CAPTION:\n[3-5 lines + CTA]\n\nHASHTAGS:\n[3-5 India gym hashtags]`);
     const parts=text.split(/SHORT CAPTION:|LONG CAPTION:|HASHTAGS:/i).filter(s=>s.trim());
     document.getElementById('cap-short').innerHTML=`<button class="copy-btn" onclick="copyEl('cap-short')">Copy</button>${parts[0]?.trim()||'—'}`;
     document.getElementById('cap-long').innerHTML=`<button class="copy-btn" onclick="copyEl('cap-long')">Copy</button>${parts[1]?.trim()||'—'}`;
     document.getElementById('cap-tags').innerHTML=`<button class="copy-btn" onclick="copyEl('cap-tags')">Copy</button>${parts[2]?.trim()||'—'}`;
-  }catch(e){document.getElementById('cap-short').textContent='Error — check API';}
+  }catch(e){showToast('Error: '+e.message);}
   btn.disabled=false;btn.textContent='✨ Generate Caption + Hashtags';
 }
 
@@ -945,24 +779,44 @@ async function runCommand(){
   const depts=['analytics','content','tracker','marketing'];
   depts.forEach(d=>{document.getElementById('d-'+d).className='dept-dot active';document.getElementById('ds-'+d).textContent='Processing...';});
   document.getElementById('cmd-output-card').style.display='block';
+  const el=document.getElementById('cmd-output');el.innerHTML='<span class="spinner"></span> All departments working...';
   const today=PLAN.find(p=>p.day===state.currentDay)||PLAN[0];
-  await callClaude(`You are the AI Manager for @shubh_log, Indian gym creator, 75-day challenge (Day ${state.currentDay}/75). Stats: ${state.followers} followers, ${state.posts} posts. Today: ${today.workout}, ${today.vibe} vibe, hook: "${today.text}".\n\nInstruction: "${cmd}"\n\nGive Campaign Pack:\n📊 ANALYTICS INSIGHT:\n✍️ CONTENT PLAN:\n🎯 75-DAY FOCUS:\n📣 3 ACTION ITEMS TODAY:\n\nDirect, India-specific, no fluff.`,'cmd-output');
+  try{
+    const text=await callAI(`AI Manager for @shubh_log, Indian gym creator, 75-day challenge (Day ${state.currentDay}/75). Stats: ${state.followers} followers, ${state.posts} posts. Today: ${today.workout}, ${today.vibe} vibe, hook: "${today.text}".\n\nInstruction: "${cmd}"\n\nGive Campaign Pack:\n📊 ANALYTICS INSIGHT:\n✍️ CONTENT PLAN:\n🎯 75-DAY FOCUS:\n📣 3 ACTION ITEMS TODAY:\n\nDirect, India-specific, no fluff.`);
+    el.innerHTML=`<button class="copy-btn" onclick="copyEl('cmd-output')">Copy</button>${text}`;
+  }catch(e){el.innerHTML='Error: '+e.message;}
   depts.forEach(d=>{document.getElementById('d-'+d).className='dept-dot done';document.getElementById('ds-'+d).textContent='Done ✓';});
 }
 
-async function runAnalysis(){await callClaude(`Analyse @shubh_log: ${state.followers} followers, ${state.posts} posts, Day ${state.currentDay}/75. Bio: ${state.bio}. Indian gym niche, vibe content.\n\n1. Honest current state\n2. Top 3 priorities now\n3. Growth prediction (6 reels/week, 75 days)\n4. One mistake creators at this stage make\n\nBrutally honest.`,'analysis-output');}
-async function generateIdeas(){const el=document.getElementById('ideas-output');el.style.display='block';await callClaude(`5 specific reel ideas for @shubh_log this week. Rules: NO voiceover, NO tips, body-safe (fitted tee, side/back/face only, NO front midsection, NO shirtless). Vibe content only.\nFor each:\n• Vibe type\n• On-screen hook\n• 3-4 shots to film\n• Audio type\nIndia gym, punchy.`,'ideas-output');}
-async function analyseCompetitors(){const comps=state.competitors.length?state.competitors.join(', '):'Indian gym fitness accounts';const el=document.getElementById('comp-analysis');el.style.display='block';await callClaude(`For @shubh_log analyse: ${comps}\n1. Content patterns working in Indian gym niche 2026\n2. Hook styles getting engagement\n3. Content gaps to fill\n4. What NOT to copy\nIndia-specific.`,'comp-analysis');}
-async function analyseOne(h){const el=document.getElementById('comp-analysis');el.style.display='block';el.scrollIntoView({behavior:'smooth'});await callClaude(`Analyse @${h.replace('@','')} for @shubh_log to study:\n1. Content format\n2. Hook patterns\n3. What's working\n4. What to REMIX (not copy)\nIndia gym niche.`,'comp-analysis');}
-async function deepInspect(){const el=document.getElementById('deep-inspect-output');el.style.display='block';await callClaude(`Deep inspect @shubh_log: ${state.followers} followers, ${state.posts} posts, Day ${state.currentDay}/75. Bio: "${state.bio}". Issues: not on Creator account, no posts, no highlights, no link in bio.\n1. Profile SEO score\n2. Bio optimization (3 improvements)\n3. First impression audit\n4. Top 3 urgent fixes TODAY\n5. What to do after first 10 posts\nBrutally honest. India Instagram.`,'deep-inspect-output');}
+async function runAnalysis(){
+  const el=document.getElementById('analysis-output');el.style.display='block';el.innerHTML='<span class="spinner"></span> Analysing...';
+  try{const text=await callAI(`Analyse @shubh_log: ${state.followers} followers, ${state.posts} posts, Day ${state.currentDay}/75. Bio: ${state.bio}. Indian gym niche, vibe content.\n1. Honest current state\n2. Top 3 priorities now\n3. Growth prediction (6 reels/week, 75 days)\n4. One mistake creators at this stage make\nBrutally honest.`);el.innerHTML=`<button class="copy-btn" onclick="copyEl('analysis-output')">Copy</button>${text}`;}
+  catch(e){el.innerHTML='Error: '+e.message;}
+}
 
-async function callClaude(prompt,outputId){
-  const el=document.getElementById(outputId);el.style.display='block';el.innerHTML='<span class="spinner"></span> Claude is thinking...';
-  try{
-    const r=await fetch(CLAUDE_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    const d=await r.json();const text=d.content?.[0]?.text||'No response.';
-    el.innerHTML=`<button class="copy-btn" onclick="copyEl('${outputId}')">Copy</button>${text}`;
-  }catch(e){el.innerHTML='Error connecting to Claude API.';}
+async function generateIdeas(){
+  const el=document.getElementById('ideas-output');el.style.display='block';el.innerHTML='<span class="spinner"></span> Generating...';
+  try{const text=await callAI(`5 reel ideas for @shubh_log this week. NO voiceover, NO tips, body-safe (fitted tee, side/back/face only, NO front midsection, NO shirtless). Vibe content only.\nFor each:\n• Vibe type\n• On-screen hook (1 line)\n• 3-4 shots to film\n• Audio type\nIndia gym, punchy.`);el.innerHTML=`<button class="copy-btn" onclick="copyEl('ideas-output')">Copy</button>${text}`;}
+  catch(e){el.innerHTML='Error: '+e.message;}
+}
+
+async function analyseCompetitors(){
+  const el=document.getElementById('comp-analysis');el.style.display='block';el.innerHTML='<span class="spinner"></span> Analysing...';
+  const comps=state.competitors.length?state.competitors.join(', '):'Indian gym fitness accounts';
+  try{const text=await callAI(`For @shubh_log analyse: ${comps}\n1. Content patterns working in Indian gym niche 2026\n2. Hook styles getting engagement\n3. Content gaps to fill\n4. What NOT to copy\nIndia-specific.`);el.innerHTML=`<button class="copy-btn" onclick="copyEl('comp-analysis')">Copy</button>${text}`;}
+  catch(e){el.innerHTML='Error: '+e.message;}
+}
+
+async function analyseOne(h){
+  const el=document.getElementById('comp-analysis');el.style.display='block';el.scrollIntoView({behavior:'smooth'});el.innerHTML='<span class="spinner"></span> Analysing...';
+  try{const text=await callAI(`Analyse @${h.replace('@','')} for @shubh_log to study (not copy):\n1. Content format\n2. Hook patterns\n3. What's working\n4. What to REMIX\nIndia gym niche.`);el.innerHTML=`<button class="copy-btn" onclick="copyEl('comp-analysis')">Copy</button>${text}`;}
+  catch(e){el.innerHTML='Error: '+e.message;}
+}
+
+async function deepInspect(){
+  const el=document.getElementById('deep-inspect-output');el.style.display='block';el.innerHTML='<span class="spinner"></span> Inspecting...';
+  try{const text=await callAI(`Deep inspect @shubh_log: ${state.followers} followers, ${state.posts} posts, Day ${state.currentDay}/75. Bio: "${state.bio}". Issues: not on Creator account, no posts, no highlights, no link in bio.\n1. Profile SEO score\n2. Bio optimization (3 improvements)\n3. First impression audit\n4. Top 3 urgent fixes TODAY\n5. After first 10 posts — what to do\nBrutally honest. India Instagram.`);el.innerHTML=`<button class="copy-btn" onclick="copyEl('deep-inspect-output')">Copy</button>${text}`;}
+  catch(e){el.innerHTML='Error: '+e.message;}
 }
 
 function copyEl(id){const el=document.getElementById(id);const text=el.innerText.replace('Copy','').trim();navigator.clipboard.writeText(text).then(()=>showToast('Copied!'));}
