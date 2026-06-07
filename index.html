@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shubh IG Dashboard</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://apis.google.com/js/api.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a0a0f;--bg2:#111118;--bg3:#18181f;--card:#1c1c26;--card2:#22222e;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--accent:#e8ff47;--accent2:#b8ff00;--pink:#ff6b9d;--purple:#a855f7;--blue:#3b82f6;--green:#22c55e;--orange:#f97316;--text:#f0f0f0;--text2:#9999aa;--text3:#5a5a6a;--radius:16px;--radius-sm:10px}
@@ -319,9 +321,12 @@ select option{background:var(--bg2)}
         <div id="pa-file-info" style="font-size:12px;color:var(--text2);margin-top:8px"></div>
       </div>
       <div id="pa-drive-section" style="display:none">
-        <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:16px;font-size:13px;color:var(--text2);line-height:1.7">
-          ☁️ <strong style="color:var(--text)">Google Drive:</strong> Open Google Drive, download your file to your device, then use "From Device" tab to upload it. Direct Drive integration coming soon.
-        </div>
+        <button onclick="openDrivePicker('post')" style="width:100%;padding:20px;background:var(--bg3);border:2px dashed var(--border2);border-radius:var(--radius);cursor:pointer;transition:all 0.2s;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border2)'">
+          <div style="font-size:32px;margin-bottom:8px">☁️</div>
+          <div style="font-weight:600;margin-bottom:4px">Browse Google Drive</div>
+          <div style="font-size:12px;color:var(--text2)">Select your final reel or photo directly from Drive</div>
+        </button>
+        <div id="pa-drive-selected" style="display:none;margin-top:10px;padding:12px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:var(--radius-sm);font-size:13px;color:var(--green)"></div>
       </div>
       <div style="margin-top:12px"><input type="text" id="pa-context" placeholder="Describe the content briefly (e.g. 'chest day, attitude vibe, arm pump')"></div>
       <button class="btn btn-accent" style="margin-top:12px;width:100%" onclick="analysePost()" id="pa-btn">🔍 Analyse & Generate Everything</button>
@@ -376,9 +381,12 @@ select option{background:var(--bg2)}
         <div id="ea-previews" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"></div>
       </div>
       <div id="ea-drive-section" style="display:none">
-        <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:16px;font-size:13px;color:var(--text2);line-height:1.7">
-          ☁️ Download screenshots from Drive to your device, then use "From Device" tab.
-        </div>
+        <button onclick="openDrivePicker('edit')" style="width:100%;padding:20px;background:var(--bg3);border:2px dashed var(--border2);border-radius:var(--radius);cursor:pointer;transition:all 0.2s;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border2)'">
+          <div style="font-size:32px;margin-bottom:8px">☁️</div>
+          <div style="font-weight:600;margin-bottom:4px">Browse Google Drive</div>
+          <div style="font-size:12px;color:var(--text2)">Select frame screenshots directly from Drive</div>
+        </button>
+        <div id="ea-drive-selected" style="display:none;margin-top:10px;padding:12px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:var(--radius-sm);font-size:13px;color:var(--green)"></div>
       </div>
       <div style="margin-top:12px;display:grid;gap:10px">
         <select id="ea-style">
@@ -448,6 +456,103 @@ select option{background:var(--bg2)}
 <script>
 const WINDSOR_KEY='5e0c944a5dac653e50dbdcccc0aa8f110d45';
 const AI_ENDPOINT='/.netlify/functions/gemini';
+const GOOGLE_CLIENT_ID='34635324152-ustufqha0eqe91hki870q1ugdka16coo.apps.googleusercontent.com';
+let googleAccessToken=null;
+let pickerApiLoaded=false;
+let gsiLoaded=false;
+
+function loadGoogleAPIs(){
+  gapi.load('picker',()=>{pickerApiLoaded=true;});
+}
+
+function initGoogleAuth(){
+  google.accounts.oauth2.initTokenClient({
+    client_id:GOOGLE_CLIENT_ID,
+    scope:'https://www.googleapis.com/auth/drive.readonly',
+    callback:(response)=>{
+      if(response.access_token){
+        googleAccessToken=response.access_token;
+        openPicker(currentPickerTarget);
+      }
+    }
+  });
+}
+
+let currentPickerTarget='';
+function openDrivePicker(target){
+  currentPickerTarget=target;
+  if(!googleAccessToken){
+    const client=google.accounts.oauth2.initTokenClient({
+      client_id:GOOGLE_CLIENT_ID,
+      scope:'https://www.googleapis.com/auth/drive.readonly',
+      callback:(response)=>{
+        if(response.access_token){
+          googleAccessToken=response.access_token;
+          showDrivePicker(target);
+        }
+      }
+    });
+    client.requestAccessToken();
+  }else{
+    showDrivePicker(target);
+  }
+}
+
+function showDrivePicker(target){
+  if(!pickerApiLoaded){showToast('Loading Drive...');gapi.load('picker',()=>{pickerApiLoaded=true;showDrivePicker(target);});return;}
+  const view=new google.picker.DocsView()
+    .setIncludeFolders(true)
+    .setMimeTypes(target==='post'?'image/jpeg,image/png,image/webp,video/mp4':'image/jpeg,image/png,image/webp');
+  const picker=new google.picker.PickerBuilder()
+    .addView(view)
+    .setOAuthToken(googleAccessToken)
+    .setDeveloperKey('')
+    .setCallback((data)=>handleDrivePickerResult(data,target))
+    .setTitle(target==='post'?'Select your final reel or photo':'Select frame screenshots')
+    .build();
+  picker.setVisible(true);
+}
+
+async function handleDrivePickerResult(data,target){
+  if(data.action===google.picker.Action.PICKED){
+    const files=data.docs;
+    showToast(`Loading ${files.length} file(s) from Drive...`);
+    
+    const loadedFiles=await Promise.all(files.map(async(f)=>{
+      const r=await fetch(`https://www.googleapis.com/drive/v3/files/${f.id}?alt=media`,{
+        headers:{Authorization:`Bearer ${googleAccessToken}`}
+      });
+      const blob=await r.blob();
+      const file=new File([blob],f.name,{type:f.mimeType});
+      return file;
+    }));
+    
+    if(target==='post'){
+      if(loadedFiles[0].size>20*1024*1024){showToast('File too large! Max 20MB');return;}
+      state.paFile=loadedFiles[0];
+      const prev=document.getElementById('pa-preview');
+      const info=document.getElementById('pa-file-info');
+      info.textContent=`${loadedFiles[0].name} · ${(loadedFiles[0].size/1024/1024).toFixed(1)}MB (from Drive)`;
+      if(loadedFiles[0].type.startsWith('image/')){prev.innerHTML=`<img src="${URL.createObjectURL(loadedFiles[0])}">`; }
+      else{prev.innerHTML=`<video src="${URL.createObjectURL(loadedFiles[0])}" controls></video>`;}
+      document.getElementById('pa-drive-selected').style.display='block';
+      document.getElementById('pa-drive-selected').textContent=`✅ ${loadedFiles[0].name} loaded from Drive`;
+      showToast('File loaded from Drive ✓');
+    }else{
+      state.eaFiles=loadedFiles;
+      const container=document.getElementById('ea-previews');container.innerHTML='';
+      loadedFiles.forEach(f=>{
+        const img=document.createElement('img');
+        img.src=URL.createObjectURL(f);
+        img.style.cssText='width:calc(33% - 6px);border-radius:8px;border:1px solid var(--border2);object-fit:cover;aspect-ratio:9/16';
+        container.appendChild(img);
+      });
+      document.getElementById('ea-drive-selected').style.display='block';
+      document.getElementById('ea-drive-selected').textContent=`✅ ${loadedFiles.length} file(s) loaded from Drive`;
+      showToast(`${loadedFiles.length} file(s) loaded ✓`);
+    }
+  }
+}
 let state={followers:9,following:11,posts:0,bio:'🏋️ Gym grind | Real progress, no filter\n📍 India\n🎯 Posting my fitness journey\n👇 Follow the log',name:'Shubh | Gym & Fitness',trackerData:JSON.parse(localStorage.getItem('td')||'{}'),reminders:JSON.parse(localStorage.getItem('rem')||'[]'),competitors:JSON.parse(localStorage.getItem('comp')||'[]'),calMonth:5,calYear:2026,currentDay:1,paFile:null,eaFiles:[]};
 
 const PLAN=[
@@ -855,6 +960,9 @@ function copyEl(id){const el=document.getElementById(id);const text=el.innerText
 function showToast(msg){const t=document.createElement('div');t.textContent=msg;t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:8px 20px;border-radius:999px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none';document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
 
 init();refreshAll();
+// Load Google Picker API
+if(typeof gapi !== 'undefined'){gapi.load('picker',()=>{pickerApiLoaded=true;});}
+window.addEventListener('load',()=>{if(typeof gapi !== 'undefined'){gapi.load('picker',()=>{pickerApiLoaded=true;});}});
 </script>
 </body>
 </html>
