@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shubh IG Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--bg2:#111118;--bg3:#18181f;--card:#1c1c26;--card2:#22222e;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--accent:#e8ff47;--accent2:#b8ff00;--pink:#ff6b9d;--purple:#a855f7;--blue:#3b82f6;--green:#22c55e;--orange:#f97316;--text:#f0f0f0;--text2:#9999aa;--text3:#5a5a6a;--radius:16px;--radius-sm:10px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Syne',sans-serif}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:72px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:16px 0;z-index:100;transition:width 0.3s ease}
+.sidebar:hover{width:220px}
+.sidebar-logo{width:40px;height:40px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#000;font-size:16px;margin-bottom:24px;flex-shrink:0}
+.nav-item{width:100%;display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;transition:all 0.2s;color:var(--text2);position:relative;overflow:hidden;white-space:nowrap}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.nav-item.active{color:var(--accent);background:rgba(232,255,71,0.08)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;background:var(--accent);border-radius:0 3px 3px 0}
+.nav-icon{font-size:20px;flex-shrink:0;width:24px;text-align:center}
+.nav-label{font-size:13px;font-weight:500;opacity:0;transition:opacity 0.2s}
+.sidebar:hover .nav-label{opacity:1}
+.main{margin-left:72px;min-height:100vh}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(10,10,15,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.page-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
+.follower-pill{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border2);padding:6px 12px;border-radius:999px;font-size:13px}
+.follower-count{font-weight:700;color:var(--accent);font-family:'Syne',sans-serif}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.refresh-btn{background:var(--card);border:1px solid var(--border2);color:var(--text2);padding:6px 14px;border-radius:999px;font-size:12px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.refresh-btn:hover{color:var(--accent);border-color:var(--accent)}
+.page{display:none;padding:20px;animation:fadeIn 0.3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:0.4}
+.stat-label{font-size:11px;color:var(--text3);margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em}
+.stat-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--text)}
+.stat-sub{font-size:11px;color:var(--text2);margin-top:4px}
+.profile-row{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.profile-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:#fff;flex-shrink:0}
+.profile-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:700}
+.profile-handle{font-size:13px;color:var(--text2);margin-top:2px}
+.profile-bio{font-size:13px;color:var(--text2);line-height:1.6;margin-top:8px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600}
+.badge-green{background:rgba(34,197,94,0.15);color:var(--green)}
+.badge-yellow{background:rgba(232,255,71,0.15);color:var(--accent)}
+.badge-pink{background:rgba(255,107,157,0.15);color:var(--pink)}
+.badge-purple{background:rgba(168,85,247,0.15);color:var(--purple)}
+.badge-orange{background:rgba(249,115,22,0.15);color:var(--orange)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s;border:none;font-family:'DM Sans',sans-serif}
+.btn-accent{background:var(--accent);color:#000}
+.btn-accent:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-ghost{background:var(--card2);color:var(--text);border:1px solid var(--border2)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:7px 14px;font-size:12px}
+textarea,input[type=text],input[type=number],select{background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;font-family:'DM Sans',sans-serif;width:100%;resize:none;transition:border-color 0.2s;outline:none}
+textarea:focus,input:focus,select:focus{border-color:var(--accent)}
+select option{background:var(--bg2)}
+.ai-output{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:16px;font-size:14px;line-height:1.7;color:var(--text);min-height:80px;position:relative;white-space:pre-wrap}
+.copy-btn{position:absolute;top:10px;right:10px;background:var(--card2);border:1px solid var(--border2);color:var(--text2);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:all 0.2s}
+.copy-btn:hover{color:var(--accent);border-color:var(--accent)}
+.progress-wrap{margin:8px 0 4px}
+.progress-bar-bg{background:var(--bg3);border-radius:999px;height:6px;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:999px;background:var(--accent);transition:width 0.8s ease}
+.tracker-table{width:100%;border-collapse:collapse;font-size:13px}
+.tracker-table th{text-align:left;padding:8px 10px;color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid var(--border);font-weight:500}
+.tracker-table td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.tracker-table tr:hover td{background:rgba(255,255,255,0.02)}
+.tracker-table input[type=number]{width:80px;padding:4px 8px;font-size:13px}
+.tracker-table input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+.day-today td{background:rgba(232,255,71,0.04)}
+.vibe-badge{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-day-label{text-align:center;font-size:11px;color:var(--text3);padding:4px 0;font-weight:600;text-transform:uppercase}
+.cal-day{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:1px solid transparent;transition:all 0.2s;position:relative;font-size:13px;font-weight:500}
+.cal-day:hover{border-color:var(--border2);background:var(--card2)}
+.cal-day.has-post{background:rgba(232,255,71,0.1);border-color:rgba(232,255,71,0.3);color:var(--accent)}
+.cal-day.today{background:var(--accent);color:#000;font-weight:700}
+.cal-day.empty{opacity:0.2;cursor:default}
+.cal-dot{position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--pink)}
+.mono-milestone{display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:10px;transition:all 0.2s}
+.mono-milestone.unlocked{border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.05)}
+.mono-milestone.locked{opacity:0.5}
+.mono-icon{font-size:24px;flex-shrink:0}
+.mono-info{flex:1}
+.mono-title{font-weight:600;font-size:14px}
+.mono-desc{font-size:12px;color:var(--text2);margin-top:3px}
+.comp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px}
+.comp-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.comp-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.cmd-input{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:var(--radius-sm);padding:14px 50px 14px 16px;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s}
+.cmd-input:focus{border-color:var(--accent)}
+.cmd-input-wrap{position:relative;margin-bottom:16px}
+.cmd-send{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(--accent);border:none;color:#000;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.dept-status{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.dept-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;display:flex;align-items:center;gap:10px}
+.dept-dot{width:8px;height:8px;border-radius:50%;background:var(--text3);flex-shrink:0}
+.dept-dot.active{background:var(--green);animation:pulse 1s infinite}
+.dept-dot.done{background:var(--accent)}
+.dept-name{font-size:13px;font-weight:500}
+.dept-status-text{font-size:11px;color:var(--text3)}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hook-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:all 0.2s;margin-bottom:6px}
+.hook-item:hover{border-color:var(--accent);color:var(--accent)}
+.hook-text{font-size:13px}
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700}
+.sec-sub{font-size:13px;color:var(--text2);margin-top:3px}
+.divider{border:none;border-top:1px solid var(--border);margin:16px 0}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+@media(max-width:640px){
+  .sidebar{width:100%;height:60px;top:auto;bottom:0;flex-direction:row;justify-content:space-around;padding:0;border-top:1px solid var(--border);border-right:none}
+  .sidebar:hover{width:100%;height:60px}
+  .sidebar-logo,.nav-label{display:none}
+  .nav-item{flex-direction:column;padding:8px;justify-content:center;gap:2px}
+  .nav-icon{font-size:18px;width:auto}
+  .main{margin-left:0;margin-bottom:60px}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .dept-status{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">S</div>
+  <div class="nav-item active" onclick="showPage('command')" id="nav-command"><span class="nav-icon">⚡</span><span class="nav-label">Command</span></div>
+  <div class="nav-item" onclick="showPage('analytics')" id="nav-analytics"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></div>
+  <div class="nav-item" onclick="showPage('tracker')" id="nav-tracker"><span class="nav-icon">🎯</span><span class="nav-label">75-Day Tracker</span></div>
+  <div class="nav-item" onclick="showPage('calendar')" id="nav-calendar"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></div>
+  <div class="nav-item" onclick="showPage('caption')" id="nav-caption"><span class="nav-icon">✍️</span><span class="nav-label">Caption AI</span></div>
+  <div class="nav-item" onclick="showPage('competitors')" id="nav-competitors"><span class="nav-icon">🔍</span><span class="nav-label">Competitors</span></div>
+  <div class="nav-item" onclick="showPage('monetization')" id="nav-monetization"><span class="nav-icon">💰</span><span class="nav-label">Monetization</span></div>
+  <div class="nav-item" onclick="showPage('inspector')" id="nav-inspector"><span class="nav-icon">🛡️</span><span class="nav-label">Inspector</span></div>
+</nav>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="follower-pill"><div class="live-dot"></div><span id="tb-followers" class="follower-count">9</span><span style="font-size:12px;color:var(--text2)">followers</span></div>
+      <span class="page-title" id="page-title-text">Command Center</span>
+    </div>
+    <button class="refresh-btn" onclick="refreshAll()">↻ Refresh</button>
+  </div>
+
+  <!-- COMMAND -->
+  <div class="page active" id="page-command">
+    <div class="sec-header"><div><div class="sec-title">Command Center ⚡</div><div class="sec-sub">One instruction. All departments activate.</div></div></div>
+    <div class="card">
+      <div class="profile-row">
+        <div class="profile-avatar">S</div>
+        <div>
+          <div class="profile-name" id="cmd-name">Shubh | Gym & Fitness</div>
+          <div class="profile-handle">@shubh_log</div>
+        </div>
+        <div style="margin-left:auto;text-align:right;"><div class="badge badge-green">● Connected</div><div style="font-size:11px;color:var(--text3);margin-top:4px;" id="last-sync">Syncing...</div></div>
+      </div>
+      <div class="profile-bio" id="cmd-bio">Loading profile...</div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚡ One Instruction → All Departments</div>
+      <div class="cmd-input-wrap">
+        <input class="cmd-input" id="cmd-input" type="text" placeholder='e.g. "Plan my content this week" or "What should I post today?"' onkeydown="if(event.key==='Enter')runCommand()">
+        <button class="cmd-send" onclick="runCommand()">→</button>
+      </div>
+      <div class="dept-status">
+        <div class="dept-item"><div class="dept-dot" id="d-analytics"></div><div><div class="dept-name">📊 Analytics</div><div class="dept-status-text" id="ds-analytics">Idle</div></div></div>
+        <div class="dept-item"><div class="dept-dot" id="d-content"></div><div><div class="dept-name">✍️ Content AI</div><div class="dept-status-text" id="ds-content">Idle</div></div></div>
+        <div class="dept-item"><div class="dept-dot" id="d-tracker"></div><div><div class="dept-name">🎯 75-Day Plan</div><div class="dept-status-text" id="ds-tracker">Idle</div></div></div>
+        <div class="dept-item"><div class="dept-dot" id="d-marketing"></div><div><div class="dept-name">📣 Marketing</div><div class="dept-status-text" id="ds-marketing">Idle</div></div></div>
+      </div>
+    </div>
+    <div class="card" id="cmd-output-card" style="display:none;"><div class="card-title">Campaign Pack 📦</div><div class="ai-output" id="cmd-output"></div></div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-label">Followers</div><div class="stat-val" id="s-followers">9</div><div class="stat-sub">@shubh_log</div></div>
+      <div class="stat-card"><div class="stat-label">Following</div><div class="stat-val" id="s-following">11</div><div class="stat-sub">accounts</div></div>
+      <div class="stat-card"><div class="stat-label">Posts</div><div class="stat-val" id="s-posts">0</div><div class="stat-sub">total media</div></div>
+      <div class="stat-card"><div class="stat-label">Challenge Day</div><div class="stat-val" id="s-day">1</div><div class="stat-sub">of 75</div></div>
+    </div>
+    <div class="card"><div class="card-title">📋 Today's Plan</div><div id="today-plan-content"></div></div>
+  </div>
+
+  <!-- ANALYTICS -->
+  <div class="page" id="page-analytics">
+    <div class="sec-header"><div><div class="sec-title">Analytics 📊</div><div class="sec-sub">Live from Windsor.ai</div></div><button class="btn btn-ghost btn-sm" onclick="refreshAll()">↻ Refresh</button></div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-label">Followers</div><div class="stat-val" id="a-followers">9</div><div class="stat-sub" id="a-fdelta">Growing</div></div>
+      <div class="stat-card"><div class="stat-label">Following</div><div class="stat-val" id="a-following">11</div><div class="stat-sub">accounts</div></div>
+      <div class="stat-card"><div class="stat-label">Posts</div><div class="stat-val" id="a-posts">0</div><div class="stat-sub">post first!</div></div>
+      <div class="stat-card"><div class="stat-label">Engagement %</div><div class="stat-val" id="a-eng">—</div><div class="stat-sub">needs posts</div></div>
+    </div>
+    <div class="card"><div class="card-title">📈 Growth Insight</div><div id="growth-insight" style="font-size:14px;line-height:1.7;color:var(--text2);">You're on Day <strong id="gi-day" style="color:var(--accent)">1</strong> of 75 with 9 followers. <strong style="color:var(--text)">Post your first reel TODAY at 7:30 PM.</strong> All engagement data unlocks after your first post.</div></div>
+    <div class="card">
+      <div class="card-title">⏰ Best Time to Post</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid rgba(232,255,71,0.3);"><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--accent)">7:30 PM</div><div style="font-size:11px;color:var(--text2);margin-top:4px">Recommended<br>India peak</div></div>
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);"><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">6:30 AM</div><div style="font-size:11px;color:var(--text2);margin-top:4px">Morning<br>gym crowd</div></div>
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);"><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">12:00 PM</div><div style="font-size:11px;color:var(--text2);margin-top:4px">Lunch<br>scroll</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-top:10px">Switch to your Insights heatmap after 100 followers.</div>
+    </div>
+    <div class="card"><div class="card-title">🧠 AI Account Analysis</div><button class="btn btn-accent btn-sm" onclick="runAnalysis()" style="margin-bottom:12px">Analyse My Account</button><div class="ai-output" id="analysis-output" style="display:none"></div></div>
+  </div>
+
+  <!-- 75-DAY TRACKER -->
+  <div class="page" id="page-tracker">
+    <div class="sec-header"><div><div class="sec-title">75-Day Challenge 🎯</div><div class="sec-sub">Started June 7, 2026 · 6 reels/week</div></div><div class="badge badge-yellow" id="tracker-badge">Day 1/75</div></div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div class="card-title" style="margin-bottom:0">Overall Progress</div><span style="font-size:13px;color:var(--text2)" id="tracker-pct">0%</span></div>
+      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" id="tracker-bar" style="width:0%"></div></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:6px"><span>Day 1</span><span>Day 25</span><span>Day 50</span><span>Day 75</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Week Stats</div>
+      <div class="stat-grid" style="margin-bottom:0">
+        <div class="stat-card"><div class="stat-label">Posts Logged</div><div class="stat-val" id="t-posts">0</div><div class="stat-sub">this week</div></div>
+        <div class="stat-card"><div class="stat-label">Total Views</div><div class="stat-val" id="t-views">0</div><div class="stat-sub">this week</div></div>
+        <div class="stat-card"><div class="stat-label">Avg Views/Post</div><div class="stat-val" id="t-avg">0</div><div class="stat-sub">this week</div></div>
+        <div class="stat-card"><div class="stat-label">Followers Gained</div><div class="stat-val" id="t-gained">0</div><div class="stat-sub">this week</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Daily Log — Week 1</div>
+      <div style="overflow-x:auto"><table class="tracker-table"><thead><tr><th>Day</th><th>Date</th><th>Workout</th><th>Vibe</th><th>Posted</th><th>Views</th><th>Likes</th><th>Followers</th></tr></thead><tbody id="tracker-body"></tbody></table></div>
+      <button class="btn btn-ghost btn-sm" style="margin-top:12px" onclick="saveTrackerData()">💾 Save Progress</button>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="page" id="page-calendar">
+    <div class="sec-header"><div><div class="sec-title">Content Calendar 📅</div><div class="sec-sub">Your 75-day posting plan</div></div></div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <button class="btn btn-ghost btn-sm" onclick="calNav(-1)">← Prev</button>
+        <div style="font-family:'Syne',sans-serif;font-weight:700" id="cal-month-label">June 2026</div>
+        <button class="btn btn-ghost btn-sm" onclick="calNav(1)">Next →</button>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+    <div class="card" id="cal-detail" style="display:none"><div class="card-title" id="cal-detail-title">Selected Day</div><div id="cal-detail-content"></div></div>
+    <div class="card">
+      <div class="card-title">📌 Reminders</div>
+      <div id="reminders-list"></div>
+      <hr class="divider">
+      <div style="display:flex;gap:8px"><input type="text" id="reminder-input" placeholder="Add a reminder..." style="flex:1"><button class="btn btn-accent btn-sm" onclick="addReminder()">Add</button></div>
+    </div>
+  </div>
+
+  <!-- CAPTION AI -->
+  <div class="page" id="page-caption">
+    <div class="sec-header"><div><div class="sec-title">Caption & Content AI ✍️</div><div class="sec-sub">Powered by Claude AI</div></div></div>
+    <div class="card">
+      <div class="card-title">Generate Caption</div>
+      <div style="display:grid;gap:10px;margin-bottom:12px">
+        <select id="cap-vibe"><option>Aesthetic</option><option>Funny</option><option>Motivational</option><option>Attitude</option><option>Lifestyle</option></select>
+        <select id="cap-workout"><option>Chest + Biceps + Cardio</option><option>Back + Triceps + Core</option><option>Legs + Shoulders</option><option>Chest + Back (thickness)</option><option>Arms + Shoulders + Abs</option><option>Legs + Conditioning</option></select>
+        <input type="text" id="cap-context" placeholder="Extra context? (optional)">
+      </div>
+      <button class="btn btn-accent" onclick="generateCaption()" id="cap-btn">✨ Generate Caption + Hashtags</button>
+      <hr class="divider">
+      <div class="card-title">Short Caption</div>
+      <div class="ai-output" id="cap-short" style="min-height:50px;margin-bottom:12px">Will appear here after generation...</div>
+      <div class="card-title">Long Caption</div>
+      <div class="ai-output" id="cap-long" style="min-height:80px;margin-bottom:12px">Will appear here after generation...</div>
+      <div class="card-title">Hashtags (3-5)</div>
+      <div class="ai-output" id="cap-tags" style="min-height:40px">Will appear here after generation...</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🪝 Hook Bank</div>
+      <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+        <button class="badge badge-yellow" onclick="filterHooks('all')" style="cursor:pointer">All</button>
+        <button class="badge badge-pink" onclick="filterHooks('Attitude')" style="cursor:pointer">Attitude</button>
+        <button class="badge badge-green" onclick="filterHooks('Funny')" style="cursor:pointer">Funny</button>
+        <button class="badge badge-purple" onclick="filterHooks('Motivational')" style="cursor:pointer">Motivational</button>
+        <button class="badge badge-orange" onclick="filterHooks('Aesthetic')" style="cursor:pointer">Aesthetic</button>
+      </div>
+      <div id="hook-grid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">💡 Content Ideas</div>
+      <button class="btn btn-ghost btn-sm" onclick="generateIdeas()" style="margin-bottom:12px">Generate 5 Ideas for This Week</button>
+      <div class="ai-output" id="ideas-output" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- COMPETITORS -->
+  <div class="page" id="page-competitors">
+    <div class="sec-header"><div><div class="sec-title">Competitor Pulse 🔍</div><div class="sec-sub">Study format, never copy content</div></div></div>
+    <div class="card"><div class="card-title">Add Competitor</div><div style="display:flex;gap:8px"><input type="text" id="comp-input" placeholder="@handle" onkeydown="if(event.key==='Enter')addCompetitor()"><button class="btn btn-accent btn-sm" onclick="addCompetitor()">Add</button></div></div>
+    <div id="comp-list"></div>
+    <div class="card"><div class="card-title">📊 Niche Analysis</div><button class="btn btn-ghost btn-sm" onclick="analyseCompetitors()" style="margin-bottom:12px">Analyse Indian Gym Niche</button><div class="ai-output" id="comp-analysis" style="display:none"></div></div>
+  </div>
+
+  <!-- MONETIZATION -->
+  <div class="page" id="page-monetization">
+    <div class="sec-header"><div><div class="sec-title">Monetization 💰</div><div class="sec-sub">Your earning milestones</div></div></div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div class="card-title" style="margin-bottom:0">Readiness Score</div><span style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--orange)" id="mono-score">12%</span></div>
+      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" id="mono-bar" style="width:12%;background:var(--orange)"></div></div></div>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px">Post consistently for 75 days to unlock milestones</div>
+    </div>
+    <div id="milestones-list"></div>
+    <div class="card"><div class="card-title">💡 Current Focus</div><div style="font-size:14px;line-height:1.7;color:var(--text2)">At 9 followers, your <strong style="color:var(--text)">only job is content consistency.</strong> Post 6 reels/week for 75 days. When you hit 1,000 followers, brand gifting and affiliate deals become realistic.</div></div>
+  </div>
+
+  <!-- INSPECTOR -->
+  <div class="page" id="page-inspector">
+    <div class="sec-header"><div><div class="sec-title">Account Inspector 🛡️</div><div class="sec-sub">Profile health check</div></div><button class="btn btn-accent btn-sm" onclick="runInspection()">Refresh</button></div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--orange)" id="inspect-score">50</div>
+        <div><div style="font-size:16px;font-weight:600">Profile Score</div><div style="font-size:13px;color:var(--text2)">Follow recommendations below</div></div>
+      </div>
+      <div class="progress-wrap" style="margin-top:12px"><div class="progress-bar-bg"><div class="progress-bar-fill" id="inspect-bar" style="width:50%;background:var(--orange)"></div></div></div>
+    </div>
+    <div id="inspect-checks"></div>
+    <div class="card"><div class="card-title">🧠 AI Deep Inspection</div><button class="btn btn-ghost btn-sm" onclick="deepInspect()" style="margin-bottom:12px">Run AI Analysis</button><div class="ai-output" id="deep-inspect-output" style="display:none"></div></div>
+  </div>
+</div>
+
+<script>
+const CLAUDE_API='https://api.anthropic.com/v1/messages';
+const WINDSOR_KEY='5e0c944a5dac653e50dbdcccc0aa8f110d45';
+let state={followers:9,following:11,posts:0,bio:'🏋️ Gym grind | Real progress, no filter\n📍 India\n🎯 Posting my fitness journey\n👇 Follow the log',name:'Shubh | Gym & Fitness',trackerData:JSON.parse(localStorage.getItem('td')||'{}'),reminders:JSON.parse(localStorage.getItem('rem')||'[]'),competitors:JSON.parse(localStorage.getItem('comp')||'[]'),calMonth:5,calYear:2026,currentDay:1};
+const PLAN=[
+  {day:1,date:'Jun 7',workout:'Chest + Biceps + Cardio',vibe:'Aesthetic',concept:'Slow-mo bicep peak + chest press, cut to the beat',text:'arm day did something to me',audio:'Attitude / phonk'},
+  {day:2,date:'Jun 8',workout:'Back + Triceps + Core',vibe:'Aesthetic',concept:'Lat pulldown back-spread from behind',text:'building a back that speaks for me',audio:'Attitude / phonk'},
+  {day:3,date:'Jun 9',workout:'Legs + Shoulders',vibe:'Funny',concept:'Leg day: the walk-out afterwards',text:'leg day: the betrayal',audio:'Comedic trending'},
+  {day:4,date:'Jun 10',workout:'Chest + Back (thickness)',vibe:'Aesthetic',concept:'Push-pull superset montage, fast cuts',text:'upper body day = main character day',audio:'Hype trending'},
+  {day:5,date:'Jun 11',workout:'Arms + Shoulders + Abs',vibe:'Aesthetic',concept:'Arm pump — curls + skull crushers slow-mo',text:'arm day is self-care',audio:'Attitude / phonk'},
+  {day:6,date:'Jun 12',workout:'Legs + Conditioning',vibe:'Funny',concept:'Fat-loss day be like — burpee suffering',text:'fat loss day be like:',audio:'Comedic trending'},
+  {day:7,date:'Jun 13',workout:'REST',vibe:'REST',concept:'Batch-film + review Dashboard',text:'—',audio:'—'},
+  {day:8,date:'Jun 14',workout:'Chest + Biceps + Cardio',vibe:'Attitude',concept:'Power chest press reps, low camera, moody',text:"they'll get it when it's too late",audio:'Hard / sigma'},
+  {day:9,date:'Jun 15',workout:'Back + Triceps + Core',vibe:'Attitude',concept:'Heavy row power reps, quiet intensity',text:'quiet work. loud results.',audio:'Hard / sigma'},
+  {day:10,date:'Jun 16',workout:'Legs + Shoulders',vibe:'Attitude',concept:'Squat depth power, low angle',text:'leg day is where they fall off',audio:'Hard / sigma'},
+  {day:11,date:'Jun 17',workout:'Chest + Back (thickness)',vibe:'Attitude',concept:'Barbell row power, thickness focus',text:"thickness isn't built in a day",audio:'Hard / sigma'},
+  {day:12,date:'Jun 18',workout:'Arms + Shoulders + Abs',vibe:'Attitude',concept:'Cable lateral raise burnout',text:'3D delts loading',audio:'Hard / sigma'},
+  {day:13,date:'Jun 19',workout:'Legs + Conditioning',vibe:'Attitude',concept:'Jump rope + KB swing high-energy montage',text:'conditioning separates the dedicated',audio:'Hype phonk'},
+  {day:14,date:'Jun 20',workout:'REST',vibe:'REST',concept:'Batch-film + review Dashboard',text:'—',audio:'—'}
+];
+const HOOKS=[
+  {vibe:'Attitude',text:"they'll get it when it's too late"},
+  {vibe:'Attitude',text:"quiet work. loud results."},
+  {vibe:'Attitude',text:"let them doubt."},
+  {vibe:'Attitude',text:"built different, on purpose"},
+  {vibe:'Attitude',text:"no posts, just progress"},
+  {vibe:'Funny',text:"nobody: / me after 1 set:"},
+  {vibe:'Funny',text:"me pretending this isn't heavy:"},
+  {vibe:'Funny',text:"leg day: the betrayal"},
+  {vibe:'Funny',text:"my arms after set 4:"},
+  {vibe:'Funny',text:"fat loss day be like:"},
+  {vibe:'Funny',text:"filming this took 14 tries"},
+  {vibe:'Funny',text:"arm day has one job:"},
+  {vibe:'Motivational',text:"one more. always one more."},
+  {vibe:'Motivational',text:"the rep that burns is the one that counts"},
+  {vibe:'Motivational',text:"the days you dread build the most"},
+  {vibe:'Motivational',text:"1% better. 75 days."},
+  {vibe:'Motivational',text:"show up ugly. just show up."},
+  {vibe:'Aesthetic',text:"chasing the pump, not the likes"},
+  {vibe:'Aesthetic',text:"arm day did something to me"},
+  {vibe:'Aesthetic',text:"boulder shoulders loading…"},
+];
+const MILESTONES=[
+  {icon:'🎁',title:'Brand Gifting',desc:'Free products from gym brands',target:'500 followers',followers:500,earn:'Free supplements, gear'},
+  {icon:'🤝',title:'Micro-Influencer Deals',desc:'Paid collaborations begin',target:'1,000 followers',followers:1000,earn:'₹2,000–₹5,000/post'},
+  {icon:'💸',title:'Affiliate Marketing',desc:'Earn commission on product links',target:'1,000 followers',followers:1000,earn:'5–15% commission'},
+  {icon:'📱',title:'Instagram Subscriptions',desc:'Paid followers for exclusive content',target:'10,000 followers',followers:10000,earn:'₹100–₹500/subscriber/month'},
+  {icon:'🏪',title:'Creator Marketplace',desc:'Instagram connects you with brands',target:'10,000 followers',followers:10000,earn:'Varies by brand'},
+  {icon:'🎬',title:'Reels Bonus Program',desc:'Earnings per reel views',target:'10,000 followers',followers:10000,earn:'₹500–₹5,000/month'},
+];
+const INSPECT_CHECKS=[
+  {label:'Profile photo set',ok:true,tip:'Keep it clear, face visible, good light'},
+  {label:'Name field has keywords',ok:true,tip:'"Shubh | Gym & Fitness" is great for Instagram SEO'},
+  {label:'Bio has CTA',ok:true,tip:'Your bio already has a follow CTA — good'},
+  {label:'Switched to Creator account',ok:false,tip:'URGENT: Settings → Account type → Creator. Unlocks real Insights'},
+  {label:'First post published',ok:false,tip:'Post your first reel TODAY at 7:30 PM'},
+  {label:'Highlights added',ok:false,tip:'Add: Best Of, Gym Vibes, Fun highlights'},
+  {label:'Link in bio',ok:false,tip:'Add a Linktree or any link to your bio'},
+  {label:'Pinned post',ok:false,tip:'After first post, pin your best reel'},
+];
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  const t={command:'Command Center',analytics:'Analytics',tracker:'75-Day Tracker',calendar:'Calendar',caption:'Caption AI',competitors:'Competitors',monetization:'Monetization',inspector:'Inspector'};
+  document.getElementById('page-title-text').textContent=t[id]||id;
+  if(id==='tracker')renderTracker();
+  if(id==='calendar')renderCalendar();
+  if(id==='caption')renderHooks('all');
+  if(id==='competitors')renderCompetitors();
+  if(id==='monetization')renderMilestones();
+  if(id==='inspector')renderInspector();
+  if(id==='calendar')renderReminders();
+}
+
+function init(){
+  const start=new Date('2026-06-07'),now=new Date();
+  state.currentDay=Math.max(1,Math.min(75,Math.floor((now-start)/86400000)+1));
+  document.getElementById('s-day').textContent=state.currentDay;
+  document.getElementById('tracker-badge').textContent=`Day ${state.currentDay}/75`;
+  const pct=Math.round((state.currentDay/75)*100);
+  document.getElementById('tracker-pct').textContent=pct+'%';
+  document.getElementById('tracker-bar').style.width=pct+'%';
+  if(document.getElementById('gi-day'))document.getElementById('gi-day').textContent=state.currentDay;
+  renderTodayPlan();
+  renderHooks('all');
+  renderCompetitors();
+  renderMilestones();
+  renderInspector();
+  renderReminders();
+}
+
+function updateUI(){
+  document.getElementById('s-followers').textContent=state.followers;
+  document.getElementById('s-following').textContent=state.following;
+  document.getElementById('s-posts').textContent=state.posts;
+  document.getElementById('tb-followers').textContent=state.followers;
+  document.getElementById('a-followers').textContent=state.followers;
+  document.getElementById('a-following').textContent=state.following;
+  document.getElementById('a-posts').textContent=state.posts;
+  document.getElementById('cmd-bio').textContent=state.bio.replace(/\n/g,' · ');
+  document.getElementById('cmd-name').textContent=state.name;
+  document.getElementById('last-sync').textContent='Synced '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+}
+
+async function refreshAll(){
+  const btn=document.querySelector('.refresh-btn');
+  const orig=btn.textContent;
+  btn.textContent='↻ Syncing...';
+  try{
+    const r=await fetch(`https://connectors.windsor.ai/all?api_key=${WINDSOR_KEY}&connector=instagram&fields=followers_count,follows_count,media_count,biography,name,username`);
+    const data=await r.json();
+    if(data&&data.data&&data.data[0]){
+      const d=data.data[0];
+      if(d.followers_count!=null)state.followers=d.followers_count;
+      if(d.follows_count!=null)state.following=d.follows_count;
+      if(d.media_count!=null)state.posts=d.media_count;
+      if(d.biography)state.bio=d.biography;
+      if(d.name)state.name=d.name;
+      updateUI();
+    }
+  }catch(e){console.log('Windsor:',e);}
+  btn.textContent=orig;
+}
+
+function renderTodayPlan(){
+  const today=PLAN.find(p=>p.day===state.currentDay)||PLAN[0];
+  const el=document.getElementById('today-plan-content');
+  if(!el)return;
+  if(today.vibe==='REST'){el.innerHTML=`<div class="badge badge-purple" style="margin-bottom:10px">Rest Day 💤</div><div style="font-size:13px;color:var(--text2);line-height:1.7">Batch-film next week's clips. Save 5 trending audios. Review your Dashboard stats.</div>`;return;}
+  const vc={Aesthetic:'badge-yellow',Funny:'badge-pink',Motivational:'badge-purple',Attitude:'badge-orange',Lifestyle:'badge-green'};
+  el.innerHTML=`<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"><span class="badge ${vc[today.vibe]||'badge-yellow'}">${today.vibe}</span><span class="badge badge-green">Post 7:30 PM</span></div><div style="font-size:13px;color:var(--text2);line-height:1.9"><div style="margin-bottom:4px"><strong style="color:var(--text)">Workout:</strong> ${today.workout}</div><div style="margin-bottom:4px"><strong style="color:var(--text)">Concept:</strong> ${today.concept}</div><div style="margin-bottom:4px"><strong style="color:var(--text)">Hook:</strong> <span style="color:var(--accent);font-style:italic">"${today.text}"</span></div><div><strong style="color:var(--text)">Audio:</strong> ${today.audio}</div></div>`;
+}
+
+function renderTracker(){
+  const tbody=document.getElementById('tracker-body');
+  if(!tbody)return;
+  tbody.innerHTML='';
+  PLAN.slice(0,7).forEach(day=>{
+    const s=state.trackerData[day.day]||{};
+    const isToday=day.day===state.currentDay;
+    const isRest=day.vibe==='REST';
+    const vc={Aesthetic:'background:rgba(232,255,71,0.1);color:var(--accent)',Funny:'background:rgba(255,107,157,0.1);color:var(--pink)',Motivational:'background:rgba(168,85,247,0.1);color:var(--purple)',Attitude:'background:rgba(249,115,22,0.1);color:var(--orange)',REST:'background:rgba(90,90,106,0.1);color:var(--text3)'};
+    const tr=document.createElement('tr');
+    if(isToday)tr.className='day-today';
+    tr.innerHTML=`<td><strong style="color:${isToday?'var(--accent)':'inherit'}">${day.day}</strong></td><td style="font-size:12px;color:var(--text2)">${day.date}</td><td style="font-size:11px">${day.workout}</td><td><span class="vibe-badge" style="${vc[day.vibe]||''}">${day.vibe}</span></td><td><input type="checkbox" ${s.posted?'checked':''} onchange="saveField(${day.day},'posted',this.checked)"></td><td><input type="number" min="0" value="${s.views||''}" placeholder="0" onchange="saveField(${day.day},'views',this.value)" ${isRest?'disabled':''}></td><td><input type="number" min="0" value="${s.likes||''}" placeholder="0" onchange="saveField(${day.day},'likes',this.value)" ${isRest?'disabled':''}></td><td><input type="number" min="0" value="${s.followers||''}" placeholder="${state.followers}" onchange="saveField(${day.day},'followers',this.value)" ${isRest?'disabled':''}></td>`;
+    tbody.appendChild(tr);
+  });
+  updateTrackerStats();
+}
+
+function saveField(day,field,val){
+  if(!state.trackerData[day])state.trackerData[day]={};
+  state.trackerData[day][field]=field==='posted'?val:parseInt(val)||0;
+  updateTrackerStats();
+}
+
+function updateTrackerStats(){
+  let posts=0,views=0,maxF=state.followers;
+  PLAN.slice(0,7).forEach(d=>{const s=state.trackerData[d.day]||{};if(s.posted)posts++;views+=s.views||0;if(s.followers)maxF=Math.max(maxF,s.followers);});
+  document.getElementById('t-posts').textContent=posts;
+  document.getElementById('t-views').textContent=views.toLocaleString();
+  document.getElementById('t-avg').textContent=posts?Math.round(views/posts):0;
+  document.getElementById('t-gained').textContent=Math.max(0,maxF-state.followers);
+}
+
+function saveTrackerData(){localStorage.setItem('td',JSON.stringify(state.trackerData));showToast('Progress saved ✓');}
+
+function renderCalendar(){
+  const grid=document.getElementById('cal-grid');
+  const label=document.getElementById('cal-month-label');
+  const fm=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  label.textContent=`${fm[state.calMonth]} ${state.calYear}`;
+  grid.innerHTML='';
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{const el=document.createElement('div');el.className='cal-day-label';el.textContent=d;grid.appendChild(el);});
+  const first=new Date(state.calYear,state.calMonth,1).getDay();
+  const days=new Date(state.calYear,state.calMonth+1,0).getDate();
+  const today=new Date();
+  for(let i=0;i<first;i++){const el=document.createElement('div');el.className='cal-day empty';grid.appendChild(el);}
+  for(let d=1;d<=days;d++){
+    const el=document.createElement('div');el.className='cal-day';
+    const td=new Date(state.calYear,state.calMonth,d);
+    const pd=PLAN.find(p=>{const pd2=new Date('2026-06-07');pd2.setDate(pd2.getDate()+p.day-1);return pd2.toDateString()===td.toDateString();});
+    if(today.getDate()===d&&today.getMonth()===state.calMonth&&today.getFullYear()===state.calYear)el.classList.add('today');
+    else if(pd&&pd.vibe!=='REST')el.classList.add('has-post');
+    el.textContent=d;
+    if(pd&&pd.vibe!=='REST'){const dot=document.createElement('div');dot.className='cal-dot';el.appendChild(dot);}
+    el.onclick=()=>showCalDetail(d,pd);
+    grid.appendChild(el);
+  }
+}
+
+function showCalDetail(d,pd){
+  const card=document.getElementById('cal-detail'),title=document.getElementById('cal-detail-title'),content=document.getElementById('cal-detail-content');
+  const fm=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  title.textContent=`${d} ${fm[state.calMonth]} ${state.calYear}`;
+  card.style.display='block';
+  if(!pd){content.innerHTML='<div style="color:var(--text2);font-size:13px">No post planned.</div>';return;}
+  if(pd.vibe==='REST'){content.innerHTML='<div class="badge badge-purple">Rest Day 💤</div><div style="margin-top:8px;font-size:13px;color:var(--text2)">Batch-film, save trending audios, review stats.</div>';return;}
+  content.innerHTML=`<div style="font-size:13px;line-height:1.9;color:var(--text2)"><div><strong style="color:var(--text)">Workout:</strong> ${pd.workout}</div><div><strong style="color:var(--text)">Vibe:</strong> ${pd.vibe}</div><div><strong style="color:var(--text)">Concept:</strong> ${pd.concept}</div><div><strong style="color:var(--text)">Hook:</strong> <span style="color:var(--accent)">"${pd.text}"</span></div><div><strong style="color:var(--text)">Audio:</strong> ${pd.audio}</div><div><strong style="color:var(--text)">Post time:</strong> 7:30 PM</div></div>`;
+}
+
+function calNav(dir){state.calMonth+=dir;if(state.calMonth>11){state.calMonth=0;state.calYear++;}if(state.calMonth<0){state.calMonth=11;state.calYear--;}renderCalendar();}
+
+function renderReminders(){
+  const list=document.getElementById('reminders-list');
+  if(!list)return;
+  if(!state.reminders.length){list.innerHTML='<div style="font-size:13px;color:var(--text3)">No reminders yet.</div>';return;}
+  list.innerHTML=state.reminders.map((r,i)=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px">🔔 ${r}</span><button onclick="removeReminder(${i})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px">×</button></div>`).join('');
+}
+
+function addReminder(){const v=document.getElementById('reminder-input').value.trim();if(!v)return;state.reminders.push(v);localStorage.setItem('rem',JSON.stringify(state.reminders));document.getElementById('reminder-input').value='';renderReminders();}
+function removeReminder(i){state.reminders.splice(i,1);localStorage.setItem('rem',JSON.stringify(state.reminders));renderReminders();}
+
+function renderHooks(filter){
+  const grid=document.getElementById('hook-grid');
+  if(!grid)return;
+  const f=filter==='all'?HOOKS:HOOKS.filter(h=>h.vibe===filter);
+  grid.innerHTML=f.map(h=>`<div class="hook-item" onclick="copyHook('${h.text.replace(/'/g,"\\'")}')"><span class="hook-text">"${h.text}"</span><span class="badge badge-yellow" style="flex-shrink:0;font-size:10px">${h.vibe}</span></div>`).join('');
+}
+
+function filterHooks(f){renderHooks(f);}
+function copyHook(t){navigator.clipboard.writeText(t);showToast('Hook copied!');}
+
+function renderCompetitors(){
+  const list=document.getElementById('comp-list');
+  if(!list)return;
+  if(!state.competitors.length){list.innerHTML='<div class="card" style="color:var(--text2);font-size:13px">No competitors added yet. Add handles above.</div>';return;}
+  list.innerHTML=state.competitors.map((c,i)=>`<div class="comp-card"><div class="comp-header"><div class="comp-avatar">${c.charAt(0).toUpperCase()}</div><div style="flex:1"><div style="font-weight:600;font-size:14px">@${c.replace('@','')}</div><div style="font-size:12px;color:var(--text2)">Gym / Fitness niche</div></div><button onclick="removeCompetitor(${i})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px">×</button></div><button class="btn btn-ghost btn-sm" onclick="analyseOne('${c}')">Analyse this account →</button></div>`).join('');
+}
+
+function addCompetitor(){const v=document.getElementById('comp-input').value.trim().replace('@','');if(!v)return;if(!state.competitors.includes(v))state.competitors.push(v);localStorage.setItem('comp',JSON.stringify(state.competitors));document.getElementById('comp-input').value='';renderCompetitors();}
+function removeCompetitor(i){state.competitors.splice(i,1);localStorage.setItem('comp',JSON.stringify(state.competitors));renderCompetitors();}
+
+function renderMilestones(){
+  const list=document.getElementById('milestones-list');
+  if(!list)return;
+  list.innerHTML=MILESTONES.map(m=>{const u=state.followers>=m.followers;return`<div class="mono-milestone ${u?'unlocked':'locked'}"><div class="mono-icon">${m.icon}</div><div class="mono-info"><div class="mono-title">${m.title}</div><div class="mono-desc">${m.desc}</div><div style="font-size:11px;color:var(--green);margin-top:4px">${m.earn}</div></div><div style="text-align:right"><div style="font-size:12px;font-weight:700;color:${u?'var(--green)':'var(--text3)'}">${m.target}</div><div class="badge ${u?'badge-green':'badge-orange'}" style="margin-top:4px">${u?'✓ Unlocked':'Locked'}</div></div></div>`;}).join('');
+}
+
+function renderInspector(){
+  const list=document.getElementById('inspect-checks');
+  if(!list)return;
+  list.innerHTML=INSPECT_CHECKS.map(c=>`<div class="card" style="padding:14px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:20px">${c.ok?'✅':'❌'}</div><div style="flex:1"><div style="font-size:14px;font-weight:500">${c.label}</div><div style="font-size:12px;color:var(--text2);margin-top:3px">${c.tip}</div></div></div></div>`).join('');
+  const score=Math.round((INSPECT_CHECKS.filter(c=>c.ok).length/INSPECT_CHECKS.length)*100);
+  document.getElementById('inspect-score').textContent=score;
+  document.getElementById('inspect-bar').style.width=score+'%';
+  document.getElementById('inspect-bar').style.background=score>=80?'var(--green)':score>=50?'var(--orange)':'var(--pink)';
+}
+
+function runInspection(){refreshAll();showToast('Inspection complete ✓');}
+
+async function callClaude(prompt,outputId){
+  const el=document.getElementById(outputId);
+  el.style.display='block';
+  el.innerHTML='<span class="spinner"></span> Claude is thinking...';
+  try{
+    const r=await fetch(CLAUDE_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const d=await r.json();
+    const text=d.content?.[0]?.text||'No response received.';
+    el.innerHTML=`<button class="copy-btn" onclick="copyText('${outputId}')">Copy</button>${text}`;
+  }catch(e){el.innerHTML='Error: Could not reach Claude API. This works on GitHub Pages — make sure the app is hosted there.';}
+}
+
+async function runCommand(){
+  const cmd=document.getElementById('cmd-input').value.trim();
+  if(!cmd)return;
+  const depts=['analytics','content','tracker','marketing'];
+  depts.forEach(d=>{document.getElementById('d-'+d).className='dept-dot active';document.getElementById('ds-'+d).textContent='Processing...';});
+  document.getElementById('cmd-output-card').style.display='block';
+  const today=PLAN.find(p=>p.day===state.currentDay)||PLAN[0];
+  const prompt=`You are the AI Manager for @shubh_log, Indian gym fitness creator, 75-day reel challenge (Day ${state.currentDay}/75). Stats: ${state.followers} followers, ${state.posts} posts. Style: vibe-only content, no tips, body-safe filming, 7:30 PM post time India. Today: ${today.workout}, ${today.vibe} vibe, concept: "${today.concept}", hook: "${today.text}".\n\nCreator says: "${cmd}"\n\nGive Campaign Pack with:\n📊 ANALYTICS INSIGHT:\n✍️ CONTENT PLAN:\n🎯 75-DAY FOCUS:\n📣 3 ACTION ITEMS FOR TODAY:\n\nBe direct, India-specific, no fluff.`;
+  await callClaude(prompt,'cmd-output');
+  depts.forEach(d=>{document.getElementById('d-'+d).className='dept-dot done';document.getElementById('ds-'+d).textContent='Done ✓';});
+}
+
+async function runAnalysis(){
+  const prompt=`Analyse @shubh_log Instagram account:\nFollowers: ${state.followers} | Following: ${state.following} | Posts: ${state.posts}\nBio: ${state.bio}\n75-day challenge Day ${state.currentDay}/75. Indian gym/fitness niche, vibe content only.\n\nGive:\n1. Current state (honest assessment)\n2. Top 3 priorities right now\n3. Growth prediction if posting 6 reels/week for 75 days\n4. One mistake most creators at this stage make\n\nBe brutally honest. India context.`;
+  await callClaude(prompt,'analysis-output');
+}
+
+async function generateCaption(){
+  const vibe=document.getElementById('cap-vibe').value;
+  const workout=document.getElementById('cap-workout').value;
+  const ctx=document.getElementById('cap-context').value;
+  const btn=document.getElementById('cap-btn');
+  btn.disabled=true;btn.textContent='⏳ Generating...';
+  const prompt=`Caption generator for @shubh_log (Indian gym creator, 75-day challenge, vibe-only content, NO tips/tutorials, body-safe).\nWorkout: ${workout} | Vibe: ${vibe} | Extra context: ${ctx||'none'}\n\nReturn ONLY this format:\nSHORT CAPTION:\n[1-2 lines, punchy]\n\nLONG CAPTION:\n[3-5 lines, ends with follow CTA]\n\nHASHTAGS:\n[3-5 India gym hashtags]`;
+  try{
+    const r=await fetch(CLAUDE_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});
+    const d=await r.json();
+    const text=d.content?.[0]?.text||'';
+    const parts=text.split(/SHORT CAPTION:|LONG CAPTION:|HASHTAGS:/i).filter(s=>s.trim());
+    document.getElementById('cap-short').innerHTML=`<button class="copy-btn" onclick="copyText('cap-short')">Copy</button>${parts[0]?.trim()||'—'}`;
+    document.getElementById('cap-long').innerHTML=`<button class="copy-btn" onclick="copyText('cap-long')">Copy</button>${parts[1]?.trim()||'—'}`;
+    document.getElementById('cap-tags').innerHTML=`<button class="copy-btn" onclick="copyText('cap-tags')">Copy</button>${parts[2]?.trim()||'—'}`;
+  }catch(e){document.getElementById('cap-short').textContent='Error — check API access';}
+  btn.disabled=false;btn.textContent='✨ Generate Caption + Hashtags';
+}
+
+async function generateIdeas(){
+  const prompt=`Generate 5 specific reel ideas for @shubh_log this week.\nRules: NO voiceover, NO tips, body-safe (fitted tee, side/back/face angles, NO front midsection, NO shirtless). Vibe content only.\nFor each:\n• Vibe type\n• On-screen hook (1 line)\n• 3-4 shots to film\n• Audio type\nIndia gym culture, punchy, direct.`;
+  const el=document.getElementById('ideas-output');el.style.display='block';
+  await callClaude(prompt,'ideas-output');
+}
+
+async function analyseCompetitors(){
+  const comps=state.competitors.length?state.competitors.join(', '):'general Indian gym fitness accounts';
+  const prompt=`For @shubh_log (Indian gym creator, 75-day challenge, vibe content), analyse competitors: ${comps}\n\n1. Content patterns working in Indian gym niche right now\n2. Hook styles getting high engagement\n3. Audio/vibe trends\n4. Content gaps @shubh_log can fill\n5. What NOT to copy\n\nIndia-specific, 2026 Instagram context.`;
+  const el=document.getElementById('comp-analysis');el.style.display='block';
+  await callClaude(prompt,'comp-analysis');
+}
+
+async function analyseOne(handle){
+  const prompt=`Analyse @${handle.replace('@','')} for @shubh_log to study (not copy):\n1. Content format and style\n2. Hook patterns\n3. What's getting engagement\n4. Audio choices\n5. What @shubh_log can REMIX from this approach\nIndia gym niche context.`;
+  const el=document.getElementById('comp-analysis');el.style.display='block';el.scrollIntoView({behavior:'smooth'});
+  await callClaude(prompt,'comp-analysis');
+}
+
+async function deepInspect(){
+  const prompt=`Deep profile inspection for @shubh_log:\nFollowers: ${state.followers} | Posts: ${state.posts} | Day ${state.currentDay}/75\nBio: "${state.bio}"\nKnown issues: Not on Creator account yet, no posts, no highlights, no link in bio.\n\n1. Profile SEO score and what's dragging it down\n2. Bio optimization (3 specific improvements)\n3. First impression audit (what a new visitor thinks in 3 seconds)\n4. Top 3 urgent fixes for TODAY\n5. What to do after first 10 posts\n\nBrutally honest. India Instagram.`;
+  const el=document.getElementById('deep-inspect-output');el.style.display='block';
+  await callClaude(prompt,'deep-inspect-output');
+}
+
+function copyText(id){
+  const el=document.getElementById(id);
+  const text=el.innerText.replace('Copy','').trim();
+  navigator.clipboard.writeText(text).then(()=>showToast('Copied!'));
+}
+
+function showToast(msg){
+  const t=document.createElement('div');
+  t.textContent=msg;
+  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:8px 20px;border-radius:999px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none';
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2000);
+}
+
+init();
+refreshAll();
+</script>
+</body>
+</html>
