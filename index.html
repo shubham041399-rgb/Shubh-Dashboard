@@ -215,7 +215,19 @@ select option{background:var(--bg2)}
       <div class="stat-card"><div class="stat-label">Posts</div><div class="stat-val" id="a-posts">0</div><div class="stat-sub">post first!</div></div>
       <div class="stat-card"><div class="stat-label">Engagement %</div><div class="stat-val" id="a-eng">—</div><div class="stat-sub">needs posts</div></div>
     </div>
-    <div class="card"><div class="card-title">📈 Growth Insight</div><div style="font-size:14px;line-height:1.7;color:var(--text2)">Day <strong id="gi-day" style="color:var(--accent)">1</strong> of 75. 9 followers. <strong style="color:var(--text)">Post your first reel TODAY at 7:30 PM.</strong></div></div>
+    <div class="card">
+      <div class="card-title">📈 Growth Insight</div>
+      <div style="font-size:14px;line-height:1.7;color:var(--text2);margin-bottom:12px">Day <strong id="gi-day" style="color:var(--accent)">1</strong> of 75. Windsor.ai syncs every 4-24hrs. Use manual update below for instant accuracy.</div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:14px;">
+        <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">⚡ Manual Stats Update (Instant)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+          <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Followers</div><input type="number" id="manual-followers" placeholder="e.g. 12" style="padding:6px 10px;font-size:13px"></div>
+          <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Following</div><input type="number" id="manual-following" placeholder="e.g. 11" style="padding:6px 10px;font-size:13px"></div>
+          <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Posts</div><input type="number" id="manual-posts" placeholder="e.g. 1" style="padding:6px 10px;font-size:13px"></div>
+        </div>
+        <button class="btn btn-accent btn-sm" onclick="updateManualStats()">Update Now</button>
+      </div>
+    </div>
     <div class="card">
       <div class="card-title">⏰ Best Time to Post</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
@@ -628,6 +640,9 @@ function showPage(id){
 }
 
 function init(){
+  // Load manually saved stats first
+  const saved=localStorage.getItem('manualStats');
+  if(saved){const s=JSON.parse(saved);if(s.followers)state.followers=s.followers;if(s.following)state.following=s.following;if(s.posts)state.posts=s.posts;}
   const start=new Date('2026-06-07'),now=new Date();
   state.currentDay=Math.max(1,Math.min(75,Math.floor((now-start)/86400000)+1));
   document.getElementById('s-day').textContent=state.currentDay;
@@ -637,6 +652,18 @@ function init(){
   document.getElementById('tracker-bar').style.width=pct+'%';
   if(document.getElementById('gi-day'))document.getElementById('gi-day').textContent=state.currentDay;
   renderTodayPlan();renderHooks('all');renderCompetitors();renderMilestones();renderInspector();renderReminders();
+}
+
+function updateManualStats(){
+  const f=parseInt(document.getElementById('manual-followers').value);
+  const fo=parseInt(document.getElementById('manual-following').value);
+  const p=parseInt(document.getElementById('manual-posts').value);
+  if(f) state.followers=f;
+  if(fo) state.following=fo;
+  if(p) state.posts=p;
+  localStorage.setItem('manualStats',JSON.stringify({followers:state.followers,following:state.following,posts:state.posts}));
+  updateUI();
+  showToast('Stats updated ✓');
 }
 
 function updateUI(){
@@ -798,7 +825,35 @@ async function analysePost(){
       showToast('Video detected — analysing based on your description. Add details in the context field for better results.');
     }
 
-    const prompt=`You are a professional Instagram content analyst for @shubh_log — Indian gym fitness creator, 75-day reel challenge, Day ${state.currentDay}/75. Stats: ${state.followers} followers. Style: vibe-only (Aesthetic/Funny/Motivational/Attitude), NO tips, body-safe filming (fitted tee, side/back/face only).\n${ctx?`Creator notes: ${ctx}\n`:''}\nAnalyse this ${isVideo?'gym reel (video)':'gym content image'} and return EXACTLY this format:\n\nVERDICT: [POST IT or HOLD IT]\nVERDICT_REASON: [1-2 sentences why]\nSCORE: [number 0-100]\nSCORE_BREAKDOWN:\nHook strength: [X]/20 — [brief reason]\nVibe match: [X]/20 — [brief reason]\nVisual quality: [X]/20 — [brief reason]\nBody-safe compliance: [X]/20 — [brief reason]\nPosting readiness: [X]/20 — [brief reason]\nSHORT_CAPTION: [1-2 punchy lines, India gym vibe]\nLONG_CAPTION: [3-5 lines + CTA like "follow the 75 👇"]\nHASHTAGS: [3-5 India gym hashtags]\nBEST_TIME: [specific time for India audience]\nFIRST_COMMENT: [SEO-optimised first comment to pin]\nIMPROVEMENTS: [2-3 specific improvements]`;
+    const uniqueSeed=Date.now()+Math.floor(Math.random()*9999);
+    const prompt=`You are a professional Instagram content analyst for @shubh_log — Indian gym fitness creator, 75-day reel challenge, Day ${state.currentDay}/75.
+Stats: ${state.followers} followers, ${state.posts} posts. Style: vibe-only, NO tips, body-safe.
+Unique generation seed: ${uniqueSeed}
+${ctx?`Creator notes: ${ctx}`:''}
+
+DEEPLY analyse this ${isVideo?'gym reel':'gym content image'} — look at EVERY detail: lighting, angle, energy, expression, movement, what's being shown.
+
+Generate captions that are SPECIFIC to what you see in this content — not generic gym captions.
+The SHORT_CAPTION and LONG_CAPTION must reference something actually visible in the content.
+HASHTAGS must include #day${state.currentDay}of75 and be specific to the workout/content visible.
+
+Return EXACTLY:
+
+VERDICT: [POST IT or HOLD IT]
+VERDICT_REASON: [specific reason based on what you actually see]
+SCORE: [0-100]
+SCORE_BREAKDOWN:
+Hook strength: [X]/20 — [specific observation]
+Vibe match: [X]/20 — [specific observation]
+Visual quality: [X]/20 — [specific observation]
+Body-safe compliance: [X]/20 — [specific observation]
+Posting readiness: [X]/20 — [specific observation]
+SHORT_CAPTION: [1-2 lines SPECIFIC to what's in this content]
+LONG_CAPTION: [3-5 lines telling the story of THIS specific content + CTA]
+HASHTAGS: [3-5 hashtags including #day${state.currentDay}of75]
+BEST_TIME: [best time for India audience today]
+FIRST_COMMENT: [SEO first comment specific to this content]
+IMPROVEMENTS: [specific improvements for THIS content only]`;
 
     const text=await callAI(prompt,imageData,mimeType);
     console.log('=== POST ANALYSER RESPONSE ===', text);
@@ -902,7 +957,31 @@ async function generateCaption(){
   const vibe=document.getElementById('cap-vibe').value;const workout=document.getElementById('cap-workout').value;const ctx=document.getElementById('cap-context').value;
   const btn=document.getElementById('cap-btn');btn.disabled=true;btn.textContent='⏳ Generating...';
   try{
-    const text=await callAI(`Caption for @shubh_log (Indian gym, 75-day challenge, vibe-only, NO tips, body-safe).\nWorkout: ${workout} | Vibe: ${vibe} | Context: ${ctx||'none'}\n\nReturn ONLY:\nSHORT CAPTION:\n[1-2 punchy lines]\n\nLONG CAPTION:\n[3-5 lines + CTA]\n\nHASHTAGS:\n[3-5 India gym hashtags]`);
+    const timestamp=Date.now();
+    const randomSeed=Math.floor(Math.random()*1000);
+    const text=await callAI(`Generate a COMPLETELY UNIQUE caption for @shubh_log. Never repeat previous captions.
+Seed for uniqueness: ${timestamp}-${randomSeed}
+Account: Indian gym fitness creator, 75-day reel challenge Day ${state.currentDay}/75
+Style: ${vibe} vibe, NO tips/tutorials, pure attitude/emotion content
+Workout today: ${workout}
+Extra context: ${ctx||'none'}
+
+Rules:
+- SHORT CAPTION must be 1-2 lines MAX, punchy, matches ${vibe} energy
+- LONG CAPTION must tell a micro-story or feeling, end with "follow the 75 👇" or similar
+- HASHTAGS must include at least 1 day-specific tag like #day${state.currentDay}of75
+- Every caption must feel different from generic gym content
+- India gym culture, Hindi-English mix acceptable
+
+Return ONLY this exact format:
+SHORT CAPTION:
+[your unique caption]
+
+LONG CAPTION:
+[your unique caption]
+
+HASHTAGS:
+[hashtags including #day${state.currentDay}of75]`);
     const parts=text.split(/SHORT CAPTION:|LONG CAPTION:|HASHTAGS:/i).filter(s=>s.trim());
     document.getElementById('cap-short').innerHTML=`<button class="copy-btn" onclick="copyEl('cap-short')">Copy</button>${parts[0]?.trim()||'—'}`;
     document.getElementById('cap-long').innerHTML=`<button class="copy-btn" onclick="copyEl('cap-long')">Copy</button>${parts[1]?.trim()||'—'}`;
