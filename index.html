@@ -614,6 +614,34 @@ const INSPECT_CHECKS=[
 ];
 
 // AI CALL via Netlify Function
+async function compressImage(file, maxSizeKB=800) {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.onload = () => {
+      let w = img.width, h = img.height;
+      const maxDim = 1024;
+      if(w > maxDim || h > maxDim) {
+        if(w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+        else { w = Math.round(w * maxDim / h); h = maxDim; }
+      }
+      canvas.width = w; canvas.height = h;
+      ctx.drawImage(img, 0, 0, w, h);
+      let quality = 0.8;
+      const tryCompress = () => {
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        const base64 = dataUrl.split(',')[1];
+        const sizeKB = (base64.length * 3/4) / 1024;
+        if(sizeKB > maxSizeKB && quality > 0.3) { quality -= 0.1; tryCompress(); }
+        else { resolve({ data: base64, mimeType: 'image/jpeg' }); }
+      };
+      tryCompress();
+    };
+    img.src = URL.createObjectURL(file);
+  });
+}
+
 async function callAI(prompt, imageData, mimeType, isMultiImage, images) {
   const body = { prompt };
   if (imageData && mimeType) { body.imageData = imageData; body.mimeType = mimeType; }
@@ -819,7 +847,11 @@ async function analysePost(){
   try{
     const isVideo=state.paFile.type.startsWith('video/');
     let imageData=null,mimeType=null;
-    if(!isVideo){imageData=await fileToBase64(state.paFile);mimeType=getMime(state.paFile);}
+    if(!isVideo){
+      const compressed=await compressImage(state.paFile);
+      imageData=compressed.data;
+      mimeType=compressed.mimeType;
+    }
     else{
       // For video: extract description prompt since Gemini free tier doesn't support video
       showToast('Video detected — analysing based on your description. Add details in the context field for better results.');
@@ -897,7 +929,13 @@ async function analyseEdit(){
   const btn=document.getElementById('ea-btn');btn.disabled=true;btn.textContent='🎨 Analysing...';
   const style=document.getElementById('ea-style').value;const ctx=document.getElementById('ea-context').value;
   try{
-    const images=await Promise.all(state.eaFiles.map(async f=>({data:await fileToBase64(f),mimeType:getMime(f)})));
+    const images=await Promise.all(state.eaFiles.map(async f=>{
+      if(f.type.startsWith('image/')){
+        const compressed=await compressImage(f);
+        return {data:compressed.data,mimeType:compressed.mimeType};
+      }
+      return {data:await fileToBase64(f),mimeType:getMime(f)};
+    }));
     const prompt=`You are a professional video colorist for @shubh_log — Indian gym fitness creator making Instagram reels. Target style: ${style}. ${ctx?`Shot: ${ctx}.`:''}\n\nAnalyse these frame screenshots and return EXACTLY:\n\nWINNER: [CapCut or VN or Edits]\nWINNER_SCORE: [X/100]\nWINNER_REASON: [2-3 sentences why this app is best for this footage]\n\nCOMPARISON:\nSetting | CapCut | VN | Edits\nBrightness | [value] | [value] | [value]\nContrast | [value] | [value] | [value]\nSaturation | [value] | [value] | [value]\nShadows | [value] | [value] | [value]\nHighlights | [value] | [value] | [value]\nWarmth | [value] | [value] | [value]\nSharpness | [value] | [value] | [value]\nFilter | [name+strength] | [name+strength] | [name+strength]\nScore | [/100] | [/100] | [/100]\n\nSTEPS:\n[Numbered step-by-step edit guide for winning app. Simple language, exact values.]\n\nAVOID:\n[3-4 things NOT to do with this footage]`;
 
     const text=await callAI(prompt,null,null,true,images);
